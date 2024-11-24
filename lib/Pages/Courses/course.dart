@@ -21,15 +21,16 @@ class CoursePage extends StatelessWidget {
             ),
             const SizedBox(height: 12.0),
             Expanded(
-                child: Row(
-              children: [
-                if (Responsive.isDesktop(context))
-                  const SizedBox(
-                    width: 250, // Set the width of the side menu
-                    child: SideMenu(),
-                  ),
-              ],
-            ))
+              child: Row(
+                children: [
+                  if (Responsive.isDesktop(context))
+                    const SizedBox(
+                      width: 250, // Set the width of the side menu
+                      child: SideMenu(),
+                    ),
+                ],
+              ),
+            )
           ],
         ),
       ),
