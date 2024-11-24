@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:student_managment_system/Pages/Home/home_page.dart';
+import 'package:student_managment_system/Pages/MainPage/main_page.dart';
 
 class SplashController {
   Future<void> timer(BuildContext context) async {
@@ -9,7 +9,7 @@ class SplashController {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (c) => const HomePage(),
+          builder: (c) => const MainPage(),
         ),
       );
     });

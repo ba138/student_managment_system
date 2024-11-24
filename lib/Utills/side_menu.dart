@@ -35,7 +35,7 @@ class _SideMenuState extends State<SideMenu> {
             icon: Icons.home_outlined,
           ),
           DrawerListTile(
-            title: "Familys",
+            title: "Courses",
             press: () {
               // Navigator.of(context).pushReplacement(
               //   MaterialPageRoute(
@@ -46,7 +46,7 @@ class _SideMenuState extends State<SideMenu> {
             icon: Icons.group_outlined,
           ),
           DrawerListTile(
-            title: "Providers",
+            title: "Classes",
             press: () {
               // Navigator.of(context).pushReplacement(
               //   MaterialPageRoute(
@@ -57,7 +57,7 @@ class _SideMenuState extends State<SideMenu> {
             icon: Icons.person_2_outlined,
           ),
           DrawerListTile(
-            title: "Familys Community",
+            title: "Lecture",
             press: () {
               // Navigator.of(context).pushReplacement(
               //   MaterialPageRoute(
@@ -68,7 +68,7 @@ class _SideMenuState extends State<SideMenu> {
             icon: Icons.data_exploration_outlined,
           ),
           DrawerListTile(
-            title: "Providers Community",
+            title: "Lesson",
             press: () {
               // Navigator.of(context).pushReplacement(
               //   MaterialPageRoute(

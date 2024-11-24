@@ -71,12 +71,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   icon: Icons.people_outline_outlined,
                   iconColor: AppColors.primaryColor,
                   title: familyCount.toString(),
-                  subtitle: 'Total Familys'),
+                  subtitle: 'Total Classes'),
               DashboardWidget(
                   icon: Icons.person_2_outlined,
                   iconColor: AppColors.primaryColor,
                   title: providerCount.toString(),
-                  subtitle: 'Total Providers'),
+                  subtitle: 'Total Courses'),
               DashboardWidget(
                   icon: Icons.payment_outlined,
                   iconColor: AppColors.primaryColor,
@@ -84,7 +84,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     "0",
                     6, // Maximum length before adding ellipsis
                   ),
-                  subtitle: 'Sub Familys'),
+                  subtitle: 'Total Modules'),
               DashboardWidget(
                   icon: Icons.payment_outlined,
                   iconColor: AppColors.primaryColor,
@@ -92,7 +92,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     "0",
                     6, // Maximum length before adding ellipsis
                   ),
-                  subtitle: 'Sub Providers'),
+                  subtitle: 'Total  Students'),
             ],
           ),
         ),

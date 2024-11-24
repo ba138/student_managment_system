@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:student_managment_system/Pages/Splash_Page/splash_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {

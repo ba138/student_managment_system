@@ -30,7 +30,7 @@ class Header extends StatelessWidget {
           if (Responsive.isDesktop(context))
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Nanny Fairy",
+              child: Text("Your App Name",
                   style: TextStyle(
                     fontSize: 18,
                     color: AppColors.primaryColor,
