@@ -68,17 +68,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               DashboardWidget(
-                  icon: Icons.people_outline_outlined,
+                  icon: Icons.class_outlined,
                   iconColor: AppColors.primaryColor,
                   title: familyCount.toString(),
                   subtitle: 'Total Classes'),
               DashboardWidget(
-                  icon: Icons.person_2_outlined,
+                  icon: Icons.cable_outlined,
                   iconColor: AppColors.primaryColor,
                   title: providerCount.toString(),
                   subtitle: 'Total Courses'),
               DashboardWidget(
-                  icon: Icons.payment_outlined,
+                  icon: Icons.view_module_rounded,
                   iconColor: AppColors.primaryColor,
                   title: addEllipsis(
                     "0",
@@ -86,7 +86,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   subtitle: 'Total Modules'),
               DashboardWidget(
-                  icon: Icons.payment_outlined,
+                  icon: Icons.group_outlined,
                   iconColor: AppColors.primaryColor,
                   title: addEllipsis(
                     "0",

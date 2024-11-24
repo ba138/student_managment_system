@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:student_managment_system/Pages/Courses/course.dart';
 
 import 'colors.dart';
 
@@ -37,11 +38,11 @@ class _SideMenuState extends State<SideMenu> {
           DrawerListTile(
             title: "Courses",
             press: () {
-              // Navigator.of(context).pushReplacement(
-              //   MaterialPageRoute(
-              //     builder: (context) => const FamilyScreen(),
-              //   ),
-              // );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const CoursePage(),
+                ),
+              );
             },
             icon: Icons.group_outlined,
           ),
