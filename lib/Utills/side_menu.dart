@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:student_managment_system/Pages/Courses/course.dart';
+import 'package:student_managment_system/Pages/MainPage/main_page.dart';
 
 import 'colors.dart';
 
@@ -27,11 +28,11 @@ class _SideMenuState extends State<SideMenu> {
           DrawerListTile(
             title: "Dashboard",
             press: () {
-              // Navigator.of(context).pushReplacement(
-              //   MaterialPageRoute(
-              //     builder: (context) => const MainScreen(),
-              //   ),
-              // );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const MainPage(),
+                ),
+              );
             },
             icon: Icons.home_outlined,
           ),
