@@ -6,6 +6,7 @@ final GlobalKey<ScaffoldState> _addProductScaffoldKey =
     GlobalKey<ScaffoldState>();
 final GlobalKey<ScaffoldState> _orderScaffoldKey = GlobalKey<ScaffoldState>();
 final GlobalKey<ScaffoldState> _financeScaffoldKey = GlobalKey<ScaffoldState>();
+final GlobalKey<ScaffoldState> _courseScaffoldKey = GlobalKey<ScaffoldState>();
 
 // Getters
 GlobalKey<ScaffoldState> get getScaffoldKey => _scaffoldKey;
@@ -13,6 +14,7 @@ GlobalKey<ScaffoldState> get getgridscaffoldKey => _gridScaffoldKey;
 GlobalKey<ScaffoldState> get getAddProductscaffoldKey => _addProductScaffoldKey;
 GlobalKey<ScaffoldState> get getOrderScaffoldKey => _orderScaffoldKey;
 GlobalKey<ScaffoldState> get getFinanceScaffoldKey => _financeScaffoldKey;
+GlobalKey<ScaffoldState> get getCourseScaffoldKey => _courseScaffoldKey;
 
 // Callbacks
 void controlDashboarkMenu() {
@@ -42,5 +44,11 @@ void controlOrderScreen() {
 void controlFinanceScreen() {
   if (!_financeScaffoldKey.currentState!.isDrawerOpen) {
     _financeScaffoldKey.currentState!.openDrawer();
+  }
+}
+
+void controlCourseScreen() {
+  if (!_courseScaffoldKey.currentState!.isDrawerOpen) {
+    _courseScaffoldKey.currentState!.openDrawer();
   }
 }
