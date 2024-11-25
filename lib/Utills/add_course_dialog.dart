@@ -16,128 +16,65 @@ class AddCourseDialog extends StatefulWidget {
 }
 
 class _AddCourseDialogState extends State<AddCourseDialog> {
-  TextEditingController titleController = TextEditingController();
-  RxBool isLogin = false.obs;
-  final List<Widget> lessonCards = [];
-  void _addLessonCard() {
+  TextEditingController courseController = TextEditingController();
+  RxBool isLoading = false.obs;
+
+  // List of modules with lessons
+  List<Map<String, dynamic>> modules = [];
+
+  void _addModule() {
     setState(() {
-      lessonCards.add(SizedBox(
-        width: MediaQuery.sizeOf(context).width / 3,
-        child: Card(
-          color: AppColors.secondryColor,
-          elevation: 0,
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Lesson Title",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.blackColor,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 38,
-                  width: MediaQuery.of(context).size.width / 5,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                      8,
-                    ),
-                    border: Border.all(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        isDense: true,
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 8.0,
-                        ),
-                        hintText: 'Lesson Title',
-                        hintStyle: TextStyle(color: Colors.black),
-                        border: InputBorder.none,
-                      ),
-                      textAlignVertical: TextAlignVertical.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Lesson Discription",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.blackColor,
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                      10,
-                    ),
-                    border: Border.all(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextField(
-                      maxLines: 10,
-                      decoration: InputDecoration(
-                          hintText: "Lesson Discription",
-                          border: InputBorder.none),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor,
-                  ),
-                  onPressed: () {},
-                  child: Text(
-                    "Save Lesson",
-                    style: GoogleFonts.getFont(
-                      "Poppins",
-                      textStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.secondryColor,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
+      modules.add({
+        "moduleTitle": TextEditingController(), // Controller for module title
+        "lessons": [], // List of lessons in the module
+      });
+    });
+  }
+
+  void _addLesson(int moduleIndex) {
+    setState(() {
+      modules[moduleIndex]["lessons"].add({
+        "lessonTitle": TextEditingController(), // Controller for lesson title
+        "lessonDescription": TextEditingController(), // Lesson description
+      });
+    });
+  }
+
+  Widget _buildTextInput(String label, String hintText,
+      {int maxLines = 1, TextEditingController? controller}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.poppins(
+            textStyle: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: AppColors.blackColor,
             ),
           ),
         ),
-      ));
-    });
-    titleController.clear(); // Clear the text field
+        const SizedBox(height: 5),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: AppColors.primaryColor,
+            ),
+          ),
+          child: TextField(
+            maxLines: maxLines,
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: hintText,
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -151,275 +88,149 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
               height: 64,
               child: Header(fct: () {}),
             ),
-            const SizedBox(height: 12.0),
+            const SizedBox(height: 12),
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (Responsive.isDesktop(context))
                     const SizedBox(
-                      width: 250, // Set the width of the side menu
+                      width: 250,
                       child: SideMenu(),
                     ),
                   Expanded(
-                    // It takes the remaining part of the screen
                     child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(16),
                       child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 16.0, right: 16),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                color: AppColors.secondryColor,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Card(
+                            color: AppColors.secondryColor,
+                            elevation: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Add Courses",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.blackColor,
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: _addModule,
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              AppColors.primaryColor,
+                                        ),
+                                        child: Text(
+                                          "Add Module",
+                                          style: GoogleFonts.poppins(
+                                            color: AppColors.secondryColor,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  _buildTextInput(
+                                      "Course Title", "Enter Course Title",
+                                      controller: courseController),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          for (int i = 0; i < modules.length; i++)
+                            Card(
+                              color: AppColors.secondryColor,
+                              elevation: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Add Courses",
-                                              style: GoogleFonts.getFont(
-                                                "Poppins",
-                                                textStyle: TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: AppColors.blackColor,
-                                                ),
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: _addLessonCard,
-                                              child: Container(
-                                                height: 38,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    13,
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                    8,
-                                                  ),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    "Add Lesson",
-                                                    style: GoogleFonts.getFont(
-                                                      "Poppins",
-                                                      textStyle: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: AppColors
-                                                            .secondryColor,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                        Expanded(
+                                          child: _buildTextInput(
+                                            "Module Title",
+                                            "Enter Module Title",
+                                            controller: modules[i]
+                                                ["moduleTitle"],
+                                          ),
                                         ),
-                                        const SizedBox(
-                                          height: 16,
+                                        const SizedBox(width: 10),
+                                        ElevatedButton(
+                                          onPressed: () => _addLesson(i),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.primaryColor,
+                                          ),
+                                          child: Text(
+                                            "Add Lesson",
+                                            style: GoogleFonts.poppins(
+                                              color: AppColors.secondryColor,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
                                         ),
-                                        SizedBox(
-                                          width:
-                                              MediaQuery.sizeOf(context).width,
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16),
+                                    for (int j = 0;
+                                        j < modules[i]["lessons"].length;
+                                        j++)
+                                      Card(
+                                        color: AppColors.secondryColor,
+                                        elevation: 2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12.0),
                                           child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        "Course Title",
-                                                        style:
-                                                            GoogleFonts.getFont(
-                                                          "Poppins",
-                                                          textStyle: TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: AppColors
-                                                                .blackColor,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Container(
-                                                        height: 38,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            5,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                            8,
-                                                          ),
-                                                          border: Border.all(
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                          ),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: TextField(
-                                                            controller:
-                                                                titleController,
-                                                            decoration:
-                                                                const InputDecoration(
-                                                              isDense: true,
-                                                              contentPadding:
-                                                                  EdgeInsets.symmetric(
-                                                                      vertical:
-                                                                          8.0),
-                                                              hintText:
-                                                                  'Course Title',
-                                                              hintStyle: TextStyle(
-                                                                  color: Colors
-                                                                      .black),
-                                                              border:
-                                                                  InputBorder
-                                                                      .none,
-                                                            ),
-                                                            textAlignVertical:
-                                                                TextAlignVertical
-                                                                    .center,
-                                                            style:
-                                                                const TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 12,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        "Module Title",
-                                                        style:
-                                                            GoogleFonts.getFont(
-                                                          "Poppins",
-                                                          textStyle: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: AppColors
-                                                                .blackColor,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Container(
-                                                        height: 38,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            5,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                            8,
-                                                          ),
-                                                          border: Border.all(
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                          ),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: TextField(
-                                                            controller:
-                                                                titleController,
-                                                            decoration:
-                                                                const InputDecoration(
-                                                              isDense: true,
-                                                              contentPadding:
-                                                                  EdgeInsets.symmetric(
-                                                                      vertical:
-                                                                          8.0),
-                                                              hintText:
-                                                                  'Module Title',
-                                                              hintStyle: TextStyle(
-                                                                  color: Colors
-                                                                      .black),
-                                                              border:
-                                                                  InputBorder
-                                                                      .none,
-                                                            ),
-                                                            textAlignVertical:
-                                                                TextAlignVertical
-                                                                    .center,
-                                                            style:
-                                                                const TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
+                                              _buildTextInput(
+                                                "Lesson Title",
+                                                "Enter Lesson Title",
+                                                controller: modules[i]
+                                                        ["lessons"][j]
+                                                    ["lessonTitle"],
+                                              ),
+                                              const SizedBox(height: 10),
+                                              _buildTextInput(
+                                                "Lesson Description",
+                                                "Enter Lesson Description",
+                                                controller: modules[i]
+                                                        ["lessons"][j]
+                                                    ["lessonDescription"],
+                                                maxLines: 5,
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ]),
+                                      ),
+                                  ],
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: lessonCards,
-                            ),
-                          ]),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
