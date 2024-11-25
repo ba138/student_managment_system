@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:student_managment_system/Utills/colors.dart';
 import 'package:student_managment_system/Utills/global_keys.dart';
 
+import '../Controllers/course_controller.dart';
+import '../Model/course_model.dart';
 import 'header.dart';
 import 'responsive.dart';
 import 'side_menu.dart';
@@ -75,6 +77,62 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
         ),
       ],
     );
+  }
+
+  /// Converts the UI data into a Courses model and saves it to Firestore
+  Future<void> _saveCourse() async {
+    if (courseController.text.isEmpty) {
+      Get.snackbar("Error", "Course title cannot be empty");
+      return;
+    }
+
+    // Start loading indicator
+    isLoading.value = true;
+
+    try {
+      // Build modules and lessons
+      List<ModuleModel> moduleList = [];
+      for (var module in modules) {
+        List<LessonModel> lessonList = [];
+        for (var lesson in module["lessons"]) {
+          lessonList.add(
+            LessonModel(
+              lessonTitle: lesson["lessonTitle"].text,
+              lessonDescription: lesson["lessonDescription"].text,
+            ),
+          );
+        }
+        moduleList.add(
+          ModuleModel(
+            moduleTitle: module["moduleTitle"].text,
+            lessons: lessonList,
+          ),
+        );
+      }
+
+      // Create course
+      Courses course = Courses(
+        courseTitle: courseController.text,
+        modules: moduleList,
+      );
+
+      // Save course to Firestore using CourseController
+      CourseController courseControllerInstance = CourseController();
+      await courseControllerInstance.saveCourseToFirestore(course);
+
+      // Success message
+      Get.snackbar("Success", "Course saved successfully!");
+      setState(() {
+        modules.clear(); // Reset modules
+        courseController.clear(); // Reset course title
+      });
+    } catch (e) {
+      // Error message
+      Get.snackbar("Error", "Failed to save course: $e");
+    } finally {
+      // Stop loading indicator
+      isLoading.value = false;
+    }
   }
 
   @override
@@ -224,6 +282,24 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                                 ),
                               ),
                             ),
+                          const SizedBox(height: 20),
+                          Obx(
+                            () => ElevatedButton(
+                              onPressed: isLoading.value ? null : _saveCourse,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryColor,
+                              ),
+                              child: isLoading.value
+                                  ? const CircularProgressIndicator()
+                                  : Text(
+                                      "Save Course",
+                                      style: GoogleFonts.poppins(
+                                        color: AppColors.secondryColor,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
