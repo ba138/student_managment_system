@@ -192,103 +192,138 @@ class CoursePage extends StatelessWidget {
                                         )
                                       ],
                                     ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Divider(),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Center(
+                                            child: Text(
+                                              'S.No',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Center(
+                                            child: Text(
+                                              'Course Title',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 3,
+                                          child: Center(
+                                            child: Text(
+                                              'Total Modules',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Center(
+                                            child: Text(
+                                              'Total Lesson',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Center(
+                                            child: Text(
+                                              'Phone Number',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.transparent,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Divider(),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Center(child: Text("1")),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Center(child: Text("Stripe")),
+                                        ),
+                                        Expanded(
+                                          flex: 3,
+                                          child: Center(child: Text("2")),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Center(child: Text("10")),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: InkWell(
+                                            onTap: () {},
+                                            child: Container(
+                                              height: 28,
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                color: AppColors.primaryColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  "View",
+                                                  style: GoogleFonts.getFont(
+                                                    "Poppins",
+                                                    textStyle: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: AppColors
+                                                          .secondryColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
                                   ]),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Container(
-                            height: 38,
-                            width: MediaQuery.of(context).size.width,
-                            color: AppColors.secondryColor,
-                            child: const Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Center(
-                                    child: Text(
-                                      'S.No',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Center(
-                                    child: Text(
-                                      'Course Title',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Center(
-                                    child: Text(
-                                      'Total Modules',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Center(
-                                    child: Text(
-                                      'Total Lesson',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // Expanded(
-                                //   flex: 2,
-                                //   child: Center(
-                                //     child: Text(
-                                //       'Date of Birth',
-                                //       style: TextStyle(
-                                //         fontWeight: FontWeight.bold,
-                                //         color: Colors.black,
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
-                                // Expanded(
-                                //   flex: 1,
-                                //   child: Center(
-                                //     child: Text(
-                                //       'Status',
-                                //       style: TextStyle(
-                                //         fontWeight: FontWeight.bold,
-                                //         color: Colors.black,
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Center(
-                                    child: Text(
-                                      'Phone Number',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.transparent,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
                             ),
                           ),
                         ),
