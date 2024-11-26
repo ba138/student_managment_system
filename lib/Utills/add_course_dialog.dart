@@ -21,15 +21,14 @@ class AddCourseDialog extends StatefulWidget {
 
 class _AddCourseDialogState extends State<AddCourseDialog> {
   TextEditingController courseController = TextEditingController();
-  TextEditingController courseDescriptionController =
-      TextEditingController(); // New course description
+  TextEditingController courseDescriptionController = TextEditingController();
   RxBool isLoading = false.obs;
 
   List<Map<String, dynamic>> modules = [];
 
   Uint8List? imageBytes;
   String? fileName;
-  String? imageUrl; // Store Firebase image URL
+  String? imageUrl;
 
   void _addModule() {
     setState(() {
@@ -53,7 +52,6 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
   Future<void> _pickImage() async {
     try {
       final result = await FilePicker.platform.pickFiles(type: FileType.image);
-
       if (result != null) {
         setState(() {
           fileName = result.files.single.name;
