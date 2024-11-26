@@ -1,11 +1,13 @@
+import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:student_managment_system/Utills/colors.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import '../Controllers/course_controller.dart';
 import '../Model/course_model.dart';
+import '../Utills/colors.dart';
 import 'header.dart';
 import 'responsive.dart';
 import 'side_menu.dart';
@@ -19,19 +21,22 @@ class AddCourseDialog extends StatefulWidget {
 
 class _AddCourseDialogState extends State<AddCourseDialog> {
   TextEditingController courseController = TextEditingController();
+  TextEditingController courseDescriptionController =
+      TextEditingController(); // New course description
   RxBool isLoading = false.obs;
 
-  // List of modules with lessons
   List<Map<String, dynamic>> modules = [];
 
-  Uint8List? imageBytes; // For holding the image data
-  String? fileName; // For holding the image file name
+  Uint8List? imageBytes;
+  String? fileName;
+  String? imageUrl; // Store Firebase image URL
 
   void _addModule() {
     setState(() {
       modules.add({
-        "moduleTitle": TextEditingController(), // Controller for module title
-        "lessons": [], // List of lessons in the module
+        "moduleTitle": TextEditingController(),
+        "moduleDescription": TextEditingController(),
+        "lessons": [],
       });
     });
   }
@@ -39,33 +44,39 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
   void _addLesson(int moduleIndex) {
     setState(() {
       modules[moduleIndex]["lessons"].add({
-        "lessonTitle": TextEditingController(), // Controller for lesson title
-        "lessonDescription": TextEditingController(), // Lesson description
+        "lessonTitle": TextEditingController(),
+        "lessonDescription": TextEditingController(),
       });
     });
   }
 
   Future<void> _pickImage() async {
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-      );
+      final result = await FilePicker.platform.pickFiles(type: FileType.image);
 
       if (result != null) {
         setState(() {
           fileName = result.files.single.name;
-
-          if (kIsWeb) {
-            // For web, use bytes
-            imageBytes = result.files.single.bytes;
-          } else {
-            // For other platforms, use path (if needed)
-            // String? filePath = result.files.single.path;
-          }
+          imageBytes = kIsWeb ? result.files.single.bytes : null;
         });
       }
     } catch (e) {
       debugPrint('Error picking image: $e');
+    }
+  }
+
+  Future<String?> _uploadImageToFirebase() async {
+    if (imageBytes == null) return null;
+
+    try {
+      final ref = FirebaseStorage.instance.ref('courses/$fileName');
+      final uploadTask = ref.putData(imageBytes!);
+      final snapshot = await uploadTask.whenComplete(() => null);
+      return await snapshot.ref.getDownloadURL();
+    } catch (e) {
+      debugPrint("Error uploading image: $e");
+      Get.snackbar("Error", "Failed to upload image: $e");
+      return null;
     }
   }
 
@@ -88,9 +99,7 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: AppColors.primaryColor,
-            ),
+            border: Border.all(color: AppColors.primaryColor),
           ),
           child: TextField(
             maxLines: maxLines,
@@ -107,14 +116,17 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
   }
 
   Future<void> _saveCourse() async {
-    if (courseController.text.isEmpty) {
-      Get.snackbar("Error", "Course title cannot be empty");
+    if (courseController.text.isEmpty ||
+        courseDescriptionController.text.isEmpty) {
+      Get.snackbar("Error", "Course title and description cannot be empty");
       return;
     }
 
     isLoading.value = true;
 
     try {
+      imageUrl = await _uploadImageToFirebase();
+
       List<ModuleModel> moduleList = [];
       for (var module in modules) {
         List<LessonModel> lessonList = [];
@@ -129,6 +141,7 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
         moduleList.add(
           ModuleModel(
             moduleTitle: module["moduleTitle"].text,
+            description: module["moduleDescription"].text,
             lessons: lessonList,
           ),
         );
@@ -136,6 +149,8 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
 
       Courses course = Courses(
         courseTitle: courseController.text,
+        courseDescription: courseDescriptionController.text,
+        imageUrl: imageUrl ?? "",
         modules: moduleList,
       );
 
@@ -146,7 +161,8 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
       setState(() {
         modules.clear();
         courseController.clear();
-        imageBytes = null; // Reset image
+        courseDescriptionController.clear();
+        imageBytes = null;
         fileName = null;
       });
     } catch (e) {
@@ -162,20 +178,13 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 64,
-              child: Header(fct: () {}),
-            ),
+            SizedBox(height: 64, child: Header(fct: () {})),
             const SizedBox(height: 12),
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (Responsive.isDesktop(context))
-                    const SizedBox(
-                      width: 250,
-                      child: SideMenu(),
-                    ),
+                  if (Responsive.isDesktop(context)) const SideMenu(),
                   Expanded(
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.all(16),
@@ -190,38 +199,15 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Add Courses",
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.blackColor,
-                                        ),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: _addModule,
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              AppColors.primaryColor,
-                                        ),
-                                        child: Text(
-                                          "Add Module",
-                                          style: GoogleFonts.poppins(
-                                            color: AppColors.secondryColor,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 16),
                                   _buildTextInput(
                                       "Course Title", "Enter Course Title",
                                       controller: courseController),
+                                  const SizedBox(height: 16),
+                                  _buildTextInput(
+                                      maxLines: 5,
+                                      "Course Description",
+                                      "Enter Course Description",
+                                      controller: courseDescriptionController),
                                   const SizedBox(height: 16),
                                   TextButton(
                                     onPressed: _pickImage,
@@ -233,14 +219,26 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 10),
                                   if (imageBytes != null)
-                                    Image.memory(
-                                      imageBytes!,
-                                      height: 200,
-                                    ),
+                                    Image.memory(imageBytes!, height: 200),
                                   if (fileName != null) Text("File: $fileName"),
                                 ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: _addModule,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryColor,
+                            ),
+                            child: Text(
+                              "Add Module",
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.secondryColor,
+                                ),
                               ),
                             ),
                           ),
@@ -252,38 +250,19 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: _buildTextInput(
-                                            "Module Title",
-                                            "Enter Module Title",
-                                            controller: modules[i]
-                                                ["moduleTitle"],
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        ElevatedButton(
-                                          onPressed: () => _addLesson(i),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                AppColors.primaryColor,
-                                          ),
-                                          child: Text(
-                                            "Add Lesson",
-                                            style: GoogleFonts.poppins(
-                                              color: AppColors.secondryColor,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                    _buildTextInput(
+                                      "Module Title",
+                                      "Enter Module Title",
+                                      controller: modules[i]["moduleTitle"],
                                     ),
-                                    const SizedBox(height: 16),
+                                    _buildTextInput(
+                                      maxLines: 5,
+                                      "Module Description",
+                                      "Enter Module Description",
+                                      controller: modules[i]
+                                          ["moduleDescription"],
+                                    ),
                                     for (int j = 0;
                                         j < modules[i]["lessons"].length;
                                         j++)
@@ -291,10 +270,8 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                                         color: AppColors.secondryColor,
                                         elevation: 2,
                                         child: Padding(
-                                          padding: const EdgeInsets.all(12.0),
+                                          padding: const EdgeInsets.all(8.0),
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
                                             children: [
                                               _buildTextInput(
                                                 "Lesson Title",
@@ -303,19 +280,31 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                                                         ["lessons"][j]
                                                     ["lessonTitle"],
                                               ),
-                                              const SizedBox(height: 10),
                                               _buildTextInput(
+                                                maxLines: 5,
                                                 "Lesson Description",
                                                 "Enter Lesson Description",
                                                 controller: modules[i]
                                                         ["lessons"][j]
                                                     ["lessonDescription"],
-                                                maxLines: 5,
                                               ),
                                             ],
                                           ),
                                         ),
                                       ),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () => _addLesson(i),
+                                      child: Text(
+                                        "Add Lesson",
+                                        style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.primaryColor,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -324,18 +313,10 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                           Obx(
                             () => ElevatedButton(
                               onPressed: isLoading.value ? null : _saveCourse,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryColor,
-                              ),
                               child: isLoading.value
-                                  ? const CircularProgressIndicator()
-                                  : Text(
-                                      "Save Course",
-                                      style: GoogleFonts.poppins(
-                                        color: AppColors.secondryColor,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
+                                  : const Text("Save Course"),
                             ),
                           ),
                         ],

@@ -15,6 +15,8 @@ class CourseController {
       // Add the course data to the "Courses" collection
       await _firestore.collection("Courses").doc(courseId).set({
         "courseName": course.courseTitle,
+        "courseImage": course.imageUrl,
+        "courseDescription": course.courseDescription,
         "courseId": courseId, // Store the unique course ID
       });
 
