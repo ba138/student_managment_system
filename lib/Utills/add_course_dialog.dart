@@ -1,9 +1,9 @@
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:student_managment_system/Utills/colors.dart';
-import 'package:student_managment_system/Utills/global_keys.dart';
-
 import '../Controllers/course_controller.dart';
 import '../Model/course_model.dart';
 import 'header.dart';
@@ -24,6 +24,9 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
   // List of modules with lessons
   List<Map<String, dynamic>> modules = [];
 
+  Uint8List? imageBytes; // For holding the image data
+  String? fileName; // For holding the image file name
+
   void _addModule() {
     setState(() {
       modules.add({
@@ -40,6 +43,30 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
         "lessonDescription": TextEditingController(), // Lesson description
       });
     });
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+      );
+
+      if (result != null) {
+        setState(() {
+          fileName = result.files.single.name;
+
+          if (kIsWeb) {
+            // For web, use bytes
+            imageBytes = result.files.single.bytes;
+          } else {
+            // For other platforms, use path (if needed)
+            // String? filePath = result.files.single.path;
+          }
+        });
+      }
+    } catch (e) {
+      debugPrint('Error picking image: $e');
+    }
   }
 
   Widget _buildTextInput(String label, String hintText,
@@ -79,18 +106,15 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
     );
   }
 
-  /// Converts the UI data into a Courses model and saves it to Firestore
   Future<void> _saveCourse() async {
     if (courseController.text.isEmpty) {
       Get.snackbar("Error", "Course title cannot be empty");
       return;
     }
 
-    // Start loading indicator
     isLoading.value = true;
 
     try {
-      // Build modules and lessons
       List<ModuleModel> moduleList = [];
       for (var module in modules) {
         List<LessonModel> lessonList = [];
@@ -110,27 +134,24 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
         );
       }
 
-      // Create course
       Courses course = Courses(
         courseTitle: courseController.text,
         modules: moduleList,
       );
 
-      // Save course to Firestore using CourseController
       CourseController courseControllerInstance = CourseController();
       await courseControllerInstance.saveCourseToFirestore(course);
 
-      // Success message
       Get.snackbar("Success", "Course saved successfully!");
       setState(() {
-        modules.clear(); // Reset modules
-        courseController.clear(); // Reset course title
+        modules.clear();
+        courseController.clear();
+        imageBytes = null; // Reset image
+        fileName = null;
       });
     } catch (e) {
-      // Error message
       Get.snackbar("Error", "Failed to save course: $e");
     } finally {
-      // Stop loading indicator
       isLoading.value = false;
     }
   }
@@ -138,7 +159,6 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: addCourseScaffoldKey,
       body: SafeArea(
         child: Column(
           children: [
@@ -202,6 +222,24 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                                   _buildTextInput(
                                       "Course Title", "Enter Course Title",
                                       controller: courseController),
+                                  const SizedBox(height: 16),
+                                  TextButton(
+                                    onPressed: _pickImage,
+                                    child: Text(
+                                      "Pick Course Image",
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  if (imageBytes != null)
+                                    Image.memory(
+                                      imageBytes!,
+                                      height: 200,
+                                    ),
+                                  if (fileName != null) Text("File: $fileName"),
                                 ],
                               ),
                             ),
