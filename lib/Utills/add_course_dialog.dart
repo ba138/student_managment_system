@@ -101,13 +101,16 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: AppColors.primaryColor),
           ),
-          child: TextField(
-            maxLines: maxLines,
-            controller: controller,
-            decoration: InputDecoration(
-              hintText: hintText,
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              maxLines: maxLines,
+              controller: controller,
+              decoration: InputDecoration(
+                hintText: hintText,
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+              ),
             ),
           ),
         ),
