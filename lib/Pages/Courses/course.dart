@@ -195,7 +195,103 @@ class CoursePage extends StatelessWidget {
                                   ]),
                             ),
                           ),
-                        )
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Container(
+                            height: 38,
+                            width: MediaQuery.of(context).size.width,
+                            color: AppColors.secondryColor,
+                            child: const Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Center(
+                                    child: Text(
+                                      'S.No',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Center(
+                                    child: Text(
+                                      'Course Title',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Center(
+                                    child: Text(
+                                      'Total Modules',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Center(
+                                    child: Text(
+                                      'Total Lesson',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // Expanded(
+                                //   flex: 2,
+                                //   child: Center(
+                                //     child: Text(
+                                //       'Date of Birth',
+                                //       style: TextStyle(
+                                //         fontWeight: FontWeight.bold,
+                                //         color: Colors.black,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                                // Expanded(
+                                //   flex: 1,
+                                //   child: Center(
+                                //     child: Text(
+                                //       'Status',
+                                //       style: TextStyle(
+                                //         fontWeight: FontWeight.bold,
+                                //         color: Colors.black,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Center(
+                                    child: Text(
+                                      'Phone Number',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.transparent,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ]),
                     ),
                   ),
