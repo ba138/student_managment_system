@@ -50,4 +50,46 @@ class CourseController {
       print("Error saving course: $e");
     }
   }
+
+  Future<List<Map<String, dynamic>>> fetchCoursesWithDetails() async {
+    List<Map<String, dynamic>> coursesWithDetails = [];
+
+    // Fetch courses
+    var coursesSnapshot = await _firestore.collection("Courses").get();
+
+    for (var courseDoc in coursesSnapshot.docs) {
+      var courseData = courseDoc.data();
+      String courseId = courseData['courseId'];
+
+      // Fetch modules for the course
+      var modulesSnapshot = await _firestore
+          .collection("Modules")
+          .where("courseId", isEqualTo: courseId)
+          .get();
+
+      List<Map<String, dynamic>> modulesWithLessons = [];
+
+      for (var moduleDoc in modulesSnapshot.docs) {
+        var moduleData = moduleDoc.data();
+        String moduleId = moduleData['moduleId'];
+
+        // Fetch lessons for the module
+        var lessonsSnapshot = await _firestore
+            .collection("Lessons")
+            .where("moduleId", isEqualTo: moduleId)
+            .get();
+
+        List<Map<String, dynamic>> lessons =
+            lessonsSnapshot.docs.map((lessonDoc) => lessonDoc.data()).toList();
+
+        moduleData['lessons'] = lessons; // Add lessons to the module
+        modulesWithLessons.add(moduleData);
+      }
+
+      courseData['modules'] = modulesWithLessons; // Add modules to the course
+      coursesWithDetails.add(courseData);
+    }
+
+    return coursesWithDetails;
+  }
 }
