@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:student_managment_system/Model/course_model.dart';
 import 'package:student_managment_system/Utills/add_course_dialog.dart';
 import 'package:student_managment_system/Utills/colors.dart';
+import 'package:student_managment_system/Controllers/course_controller.dart'; // Import the CourseController
 
 import '../../Utills/global_keys.dart';
 import '../../Utills/header.dart';
@@ -13,6 +15,9 @@ class CoursePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final courseController =
+        CourseController(); // Create instance of CourseController
+
     return Scaffold(
       key: getCourseScaffoldKey,
       body: SafeArea(
@@ -33,20 +38,19 @@ class CoursePage extends StatelessWidget {
                       child: SideMenu(),
                     ),
                   Expanded(
-                    // flex: 5,
-                    // It takes the remaining part of the screen
                     child: SingleChildScrollView(
-                      child: Column(mainAxisSize: MainAxisSize.max, children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16.0, right: 16),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            //     ? 650
-                            //     : MediaQuery.of(context).size.width,
-                            color: AppColors.secondryColor,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 16.0, right: 16),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              color: AppColors.secondryColor,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
@@ -60,9 +64,7 @@ class CoursePage extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
+                                    const SizedBox(height: 16),
                                     Row(
                                       children: [
                                         Container(
@@ -75,20 +77,16 @@ class CoursePage extends StatelessWidget {
                                             border: Border(
                                               left: BorderSide(
                                                 color: AppColors.primaryColor,
-                                                width:
-                                                    1.0, // Adjust the width as needed
+                                                width: 1.0,
                                               ),
                                               top: BorderSide(
                                                 color: AppColors.primaryColor,
-                                                width:
-                                                    1.0, // Adjust the width as needed
+                                                width: 1.0,
                                               ),
                                               bottom: BorderSide(
                                                 color: AppColors.primaryColor,
-                                                width:
-                                                    1.0, // Adjust the width as needed
+                                                width: 1.0,
                                               ),
-                                              // No border on the right side
                                               right: BorderSide.none,
                                             ),
                                             borderRadius:
@@ -148,9 +146,7 @@ class CoursePage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(
-                                          width: 12,
-                                        ),
+                                        const SizedBox(width: 12),
                                         InkWell(
                                           onTap: () {
                                             Navigator.push(
@@ -170,9 +166,7 @@ class CoursePage extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: AppColors.primaryColor,
                                               borderRadius:
-                                                  BorderRadius.circular(
-                                                8,
-                                              ),
+                                                  BorderRadius.circular(8),
                                             ),
                                             child: Center(
                                               child: Text(
@@ -189,16 +183,14 @@ class CoursePage extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
+                                    const SizedBox(height: 10),
                                     const Divider(),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
+                                    const SizedBox(height: 10),
+
+                                    // Added headers for course data
                                     const Row(
                                       children: [
                                         Expanded(
@@ -263,80 +255,130 @@ class CoursePage extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
+                                    const SizedBox(height: 10),
                                     const Divider(),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Center(child: Text("1")),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Center(child: Text("Stripe")),
-                                        ),
-                                        Expanded(
-                                          flex: 3,
-                                          child: Center(child: Text("2")),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Center(child: Text("10")),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: InkWell(
-                                            onTap: () {},
-                                            child: Container(
-                                              height: 28,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                color: AppColors.primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(6),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  "View",
-                                                  style: GoogleFonts.getFont(
-                                                    "Poppins",
-                                                    textStyle: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: AppColors
-                                                          .secondryColor,
+                                    const SizedBox(height: 10),
+
+                                    // Use FutureBuilder to fetch and display courses data
+                                    FutureBuilder<List<Courses>>(
+                                      future: courseController
+                                          .fetchCoursesWithDetails(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        }
+                                        if (snapshot.hasError) {
+                                          return Center(
+                                              child: Text(
+                                                  'Error: ${snapshot.error}'));
+                                        }
+                                        if (!snapshot.hasData ||
+                                            snapshot.data!.isEmpty) {
+                                          return const Center(
+                                              child: Text('No courses found'));
+                                        }
+
+                                        var courses = snapshot.data!;
+                                        return Column(
+                                          children: courses
+                                              .asMap()
+                                              .map((index, course) {
+                                                return MapEntry(
+                                                  index,
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical:
+                                                            8.0), // Add vertical spacing
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Center(
+                                                              child: Text(
+                                                                  "${index + 1}")),
+                                                        ), // S.No
+                                                        Expanded(
+                                                          flex: 2,
+                                                          child: Center(
+                                                              child: Text(course
+                                                                  .courseTitle)),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 3,
+                                                          child: Center(
+                                                              child: Text(
+                                                                  "${course.modules.length}")),
+                                                        ), // Total Modules
+                                                        Expanded(
+                                                          flex: 2,
+                                                          child: Center(
+                                                              child: Text(
+                                                                  "${course.modules.expand((module) => module.lessons).length}")),
+                                                        ), // Total Lessons
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: InkWell(
+                                                            onTap: () {},
+                                                            child: Container(
+                                                              height: 28,
+                                                              width: 50,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: AppColors
+                                                                    .primaryColor,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            6),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "View",
+                                                                  style: GoogleFonts
+                                                                      .getFont(
+                                                                    "Poppins",
+                                                                    textStyle:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      color: AppColors
+                                                                          .secondryColor,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                                );
+                                              })
+                                              .values
+                                              .toList(),
+                                        );
+                                      },
                                     ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                  ]),
+
+                                    const SizedBox(height: 20),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ]),
+                        ],
+                      ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  // Container(
-                  //   width: MediaQuery.sizeOf(context).width,
-                  //   color: AppColors.secondryColor,
-                  // )
+                  const SizedBox(height: 20),
                 ],
               ),
             )

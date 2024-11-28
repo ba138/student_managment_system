@@ -51,15 +51,20 @@ class CourseController {
     }
   }
 
-  Future<List<Map<String, dynamic>>> fetchCoursesWithDetails() async {
-    List<Map<String, dynamic>> coursesWithDetails = [];
+  Future<List<Courses>> fetchCoursesWithDetails() async {
+    List<Courses> coursesWithDetails = [];
 
     // Fetch courses
     var coursesSnapshot = await _firestore.collection("Courses").get();
 
     for (var courseDoc in coursesSnapshot.docs) {
       var courseData = courseDoc.data();
-      String courseId = courseData['courseId'];
+      String courseId = courseDoc.id; // Use document ID if needed
+
+      // Extract course-level data
+      String courseTitle = courseData['courseName'] ?? '';
+      String imageUrl = courseData['imageUrl'] ?? '';
+      String courseDescription = courseData['courseDescription'] ?? '';
 
       // Fetch modules for the course
       var modulesSnapshot = await _firestore
@@ -67,11 +72,13 @@ class CourseController {
           .where("courseId", isEqualTo: courseId)
           .get();
 
-      List<Map<String, dynamic>> modulesWithLessons = [];
+      List<ModuleModel> modulesWithLessons = [];
 
       for (var moduleDoc in modulesSnapshot.docs) {
         var moduleData = moduleDoc.data();
-        String moduleId = moduleData['moduleId'];
+        String moduleTitle = moduleData['moduleTitle'] ?? '';
+        String description = moduleData['description'] ?? '';
+        String moduleId = moduleDoc.id; // Use document ID if needed
 
         // Fetch lessons for the module
         var lessonsSnapshot = await _firestore
@@ -79,15 +86,29 @@ class CourseController {
             .where("moduleId", isEqualTo: moduleId)
             .get();
 
-        List<Map<String, dynamic>> lessons =
-            lessonsSnapshot.docs.map((lessonDoc) => lessonDoc.data()).toList();
+        List<LessonModel> lessons = lessonsSnapshot.docs.map((lessonDoc) {
+          var lessonData = lessonDoc.data();
+          return LessonModel(
+            lessonTitle: lessonData['lessonTitle'] ?? '',
+            lessonDescription: lessonData['lessonDescription'] ?? '',
+          );
+        }).toList();
 
-        moduleData['lessons'] = lessons; // Add lessons to the module
-        modulesWithLessons.add(moduleData);
+        // Create a module model and add it to the list
+        modulesWithLessons.add(ModuleModel(
+          moduleTitle: moduleTitle,
+          description: description,
+          lessons: lessons,
+        ));
       }
 
-      courseData['modules'] = modulesWithLessons; // Add modules to the course
-      coursesWithDetails.add(courseData);
+      // Create a course model and add it to the list
+      coursesWithDetails.add(Courses(
+        courseTitle: courseTitle,
+        modules: modulesWithLessons,
+        imageUrl: imageUrl,
+        courseDescription: courseDescription,
+      ));
     }
 
     return coursesWithDetails;
