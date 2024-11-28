@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:get/get.dart';
+import 'package:student_managment_system/Controllers/dashboard_controller.dart';
 import 'package:student_managment_system/Utills/colors.dart';
 import 'package:student_managment_system/Utills/liner_chart.dart';
 import '../../Utills/dashboard_widget.dart';
@@ -12,12 +13,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  int _totalUserCount = 0;
-  int _blockedUserCount = 0;
-  double _totalFunds = 0.0;
-  double _totalwithdraw = 0.0;
-  int providerCount = 0;
-  int familyCount = 0;
+  DashboardController dashboardController = Get.put(DashboardController());
 
   @override
   Widget build(BuildContext context) {
@@ -35,35 +31,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Column(
           children: [
             Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  DashboardWidget(
-                    icon: Icons.class_outlined,
-                    iconColor: AppColors.primaryColor,
-                    title: familyCount.toString(),
-                    subtitle: 'Total Classes',
-                  ),
-                  DashboardWidget(
-                    icon: Icons.cable_outlined,
-                    iconColor: AppColors.primaryColor,
-                    title: providerCount.toString(),
-                    subtitle: 'Total Courses',
-                  ),
-                  DashboardWidget(
-                    icon: Icons.view_module_rounded,
-                    iconColor: AppColors.primaryColor,
-                    title: addEllipsis("0", 6),
-                    subtitle: 'Total Modules',
-                  ),
-                  DashboardWidget(
-                    icon: Icons.group_outlined,
-                    iconColor: AppColors.primaryColor,
-                    title: addEllipsis("0", 6),
-                    subtitle: 'Total Students',
-                  ),
-                ],
+              child: Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    DashboardWidget(
+                      icon: Icons.cable_outlined,
+                      iconColor: AppColors.primaryColor,
+                      title: dashboardController.courses.value.toString(),
+                      subtitle: 'Total Courses',
+                    ),
+                    DashboardWidget(
+                      icon: Icons.view_module_rounded,
+                      iconColor: AppColors.primaryColor,
+                      title: dashboardController.modules.value.toString(),
+                      subtitle: 'Total Modules',
+                    ),
+                    DashboardWidget(
+                      icon: Icons.class_outlined,
+                      iconColor: AppColors.primaryColor,
+                      title: dashboardController.lesson.value.toString(),
+                      subtitle: 'Total Lessons',
+                    ),
+                    DashboardWidget(
+                      icon: Icons.group_outlined,
+                      iconColor: AppColors.primaryColor,
+                      title: dashboardController.students.value.toString(),
+                      subtitle: 'Total Students',
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 20), // Add some spacing
