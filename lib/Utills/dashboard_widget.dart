@@ -28,11 +28,11 @@ class DashboardWidget extends StatelessWidget {
           left: BorderSide.none,
         ),
         color: Colors.white, // Background color
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x4B4B4B14), // Shadow color
-            blurRadius: 10, // Blur radius
-            spreadRadius: 4, // Spread radius
+            color: AppColors.primaryColor, // Shadow color
+            blurRadius: 0.2, // Blur radius
+            spreadRadius: 0.2, // Spread radius
           ),
         ],
       ),

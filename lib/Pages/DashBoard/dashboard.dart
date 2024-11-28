@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:student_managment_system/Utills/colors.dart';
+import 'package:student_managment_system/Utills/liner_chart.dart';
 import '../../Utills/dashboard_widget.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -66,90 +67,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             const SizedBox(height: 20), // Add some spacing
-            Text(
-              'User Statistics',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor,
-              ),
-            ),
-            const SizedBox(height: 10), // Add spacing for the chart
+
             SizedBox(
-              height: 200, // Adjust height as needed
-              child: BarChart(
-                BarChartData(
-                  barGroups: [
-                    BarChartGroupData(
-                      x: 0,
-                      barRods: [
-                        BarChartRodData(
-                          toY: 23,
-                          color: AppColors.primaryColor,
+              height: 400, // Adjust height as needed
+              child: Card(
+                  color: AppColors.secondryColor,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 12,
+                          top: 12,
                         ),
-                      ],
-                      showingTooltipIndicators: [0],
-                    ),
-                    BarChartGroupData(
-                      x: 1,
-                      barRods: [
-                        BarChartRodData(
-                          toY: 45,
-                          color: AppColors.primaryColor,
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Statistics Graph',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.blackColor,
+                            ),
+                          ),
                         ),
-                      ],
-                      showingTooltipIndicators: [0],
-                    ),
-                  ],
-                  titlesData: FlTitlesData(
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 30,
-                        getTitlesWidget: (value, meta) {
-                          return Text(
-                            value.toInt().toString(),
-                            style: TextStyle(fontSize: 10),
-                          );
-                        },
                       ),
-                    ),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        getTitlesWidget: (value, meta) {
-                          switch (value.toInt()) {
-                            case 0:
-                              return Text('Families',
-                                  style: TextStyle(fontSize: 10));
-                            case 1:
-                              return Text('Providers',
-                                  style: TextStyle(fontSize: 10));
-                            default:
-                              return Text('');
-                          }
-                        },
-                      ),
-                    ),
-                    topTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    rightTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                  ),
-                  borderData: FlBorderData(
-                    show: true,
-                    border: const Border.symmetric(
-                      horizontal: BorderSide(
-                          color: Colors.grey, width: 1), // Bottom border
-                      vertical: BorderSide(
-                          color: Colors.grey, width: 1), // Right border
-                    ),
-                  ),
-                  gridData: const FlGridData(show: true),
-                ),
-              ),
+                      const SizedBox(height: 10), // Add spacing for the chart
+                      const LineChartSample2(),
+                    ],
+                  )),
             ),
           ],
         ),
