@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:student_managment_system/Controllers/dashboard_controller.dart';
 import 'package:student_managment_system/Utills/colors.dart';
-
+import 'package:student_managment_system/Utills/liner_chart.dart';
 import '../../Utills/dashboard_widget.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -11,40 +13,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  int _totalUserCount = 0;
-  int _blockedUserCount = 0;
-  double _totalFunds = 0.0;
-  double _totalwithdraw = 0.0;
-
-  @override
-  // void initState() {
-  //   super.initState();
-  //   fetchCounts();
-  // }
-
-  int providerCount = 0;
-  int familyCount = 0;
-
-  // Future<void> fetchCounts() async {
-  //   try {
-  //     // References to the 'providers' and 'families' nodes
-  //     DatabaseReference providersRef =
-  //         FirebaseDatabase.instance.ref('Providers');
-  //     DatabaseReference familiesRef = FirebaseDatabase.instance.ref('Family');
-
-  //     // Fetch the data once from both nodes
-  //     DataSnapshot providersSnapshot = await providersRef.get();
-  //     DataSnapshot familiesSnapshot = await familiesRef.get();
-
-  //     // Assign the number of children in each node to the respective variables
-  //     setState(() {
-  //       providerCount = providersSnapshot.children.length;
-  //       familyCount = familiesSnapshot.children.length;
-  //     });
-  //   } catch (e) {
-  //     print('Error fetching counts: $e');
-  //   }
-  // }
+  DashboardController dashboardController = Get.put(DashboardController());
 
   @override
   Widget build(BuildContext context) {
@@ -57,46 +26,77 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
 
     return SafeArea(
-        child: SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Container(
-        height: 232,
-        color: AppColors.secondryColor,
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              DashboardWidget(
-                  icon: Icons.class_outlined,
-                  iconColor: AppColors.primaryColor,
-                  title: familyCount.toString(),
-                  subtitle: 'Total Classes'),
-              DashboardWidget(
-                  icon: Icons.cable_outlined,
-                  iconColor: AppColors.primaryColor,
-                  title: providerCount.toString(),
-                  subtitle: 'Total Courses'),
-              DashboardWidget(
-                  icon: Icons.view_module_rounded,
-                  iconColor: AppColors.primaryColor,
-                  title: addEllipsis(
-                    "0",
-                    6, // Maximum length before adding ellipsis
-                  ),
-                  subtitle: 'Total Modules'),
-              DashboardWidget(
-                  icon: Icons.group_outlined,
-                  iconColor: AppColors.primaryColor,
-                  title: addEllipsis(
-                    "0",
-                    6, // Maximum length before adding ellipsis
-                  ),
-                  subtitle: 'Total  Students'),
-            ],
-          ),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Center(
+              child: Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    DashboardWidget(
+                      icon: Icons.cable_outlined,
+                      iconColor: AppColors.primaryColor,
+                      title: dashboardController.courses.value.toString(),
+                      subtitle: 'Total Courses',
+                    ),
+                    DashboardWidget(
+                      icon: Icons.view_module_rounded,
+                      iconColor: AppColors.primaryColor,
+                      title: dashboardController.modules.value.toString(),
+                      subtitle: 'Total Modules',
+                    ),
+                    DashboardWidget(
+                      icon: Icons.class_outlined,
+                      iconColor: AppColors.primaryColor,
+                      title: dashboardController.lesson.value.toString(),
+                      subtitle: 'Total Lessons',
+                    ),
+                    DashboardWidget(
+                      icon: Icons.group_outlined,
+                      iconColor: AppColors.primaryColor,
+                      title: dashboardController.students.value.toString(),
+                      subtitle: 'Total Students',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20), // Add some spacing
+
+            SizedBox(
+              height: 400, // Adjust height as needed
+              child: Card(
+                  color: AppColors.secondryColor,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 12,
+                          top: 12,
+                        ),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Statistics Graph',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.blackColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10), // Add spacing for the chart
+                      const LineChartSample2(),
+                    ],
+                  )),
+            ),
+          ],
         ),
       ),
-    ));
+    );
   }
 }

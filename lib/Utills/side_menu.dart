@@ -19,7 +19,7 @@ class _SideMenuState extends State<SideMenu> {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Colors.white,
-      elevation: 0,
+      elevation: 2,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),
