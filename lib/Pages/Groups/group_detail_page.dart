@@ -154,7 +154,6 @@ class GroupDetailPage extends StatelessWidget {
                                     const Divider(),
                                     const SizedBox(height: 10),
 
-                                    // Headers for group data (flex values for alignment)
                                     const Row(
                                       children: [
                                         Expanded(

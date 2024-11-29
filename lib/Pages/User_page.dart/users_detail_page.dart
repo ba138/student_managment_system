@@ -62,91 +62,91 @@ class UserDetailPage extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 16),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 38,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              5,
-                                          decoration: BoxDecoration(
-                                            border: Border(
-                                              left: BorderSide(
-                                                color: AppColors.primaryColor,
-                                                width: 1.0,
-                                              ),
-                                              top: BorderSide(
-                                                color: AppColors.primaryColor,
-                                                width: 1.0,
-                                              ),
-                                              bottom: BorderSide(
-                                                color: AppColors.primaryColor,
-                                                width: 1.0,
-                                              ),
-                                              right: BorderSide.none,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(8),
-                                              bottomLeft: Radius.circular(8),
-                                            ),
-                                          ),
-                                          child: const TextField(
-                                            decoration: InputDecoration(
-                                              isDense: true,
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                      vertical: 8.0),
-                                              hintText: 'Search here',
-                                              hintStyle: TextStyle(
-                                                  color: Colors.black),
-                                              border: InputBorder.none,
-                                              prefixIcon: Icon(Icons.search,
-                                                  color: Colors.black),
-                                            ),
-                                            textAlignVertical:
-                                                TextAlignVertical.center,
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                            height: 38,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                13,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.primaryColor,
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                topRight: Radius.circular(8),
-                                                bottomRight: Radius.circular(8),
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                "Search",
-                                                style: GoogleFonts.getFont(
-                                                  "Poppins",
-                                                  textStyle: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                    color:
-                                                        AppColors.secondryColor,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 12),
-                                      ],
-                                    ),
+                                    // const SizedBox(height: 16),
+                                    // Row(
+                                    //   children: [
+                                    //     Container(
+                                    //       height: 38,
+                                    //       width: MediaQuery.of(context)
+                                    //               .size
+                                    //               .width /
+                                    //           5,
+                                    //       decoration: BoxDecoration(
+                                    //         border: Border(
+                                    //           left: BorderSide(
+                                    //             color: AppColors.primaryColor,
+                                    //             width: 1.0,
+                                    //           ),
+                                    //           top: BorderSide(
+                                    //             color: AppColors.primaryColor,
+                                    //             width: 1.0,
+                                    //           ),
+                                    //           bottom: BorderSide(
+                                    //             color: AppColors.primaryColor,
+                                    //             width: 1.0,
+                                    //           ),
+                                    //           right: BorderSide.none,
+                                    //         ),
+                                    //         borderRadius:
+                                    //             const BorderRadius.only(
+                                    //           topLeft: Radius.circular(8),
+                                    //           bottomLeft: Radius.circular(8),
+                                    //         ),
+                                    //       ),
+                                    //       child: const TextField(
+                                    //         decoration: InputDecoration(
+                                    //           isDense: true,
+                                    //           contentPadding:
+                                    //               EdgeInsets.symmetric(
+                                    //                   vertical: 8.0),
+                                    //           hintText: 'Search here',
+                                    //           hintStyle: TextStyle(
+                                    //               color: Colors.black),
+                                    //           border: InputBorder.none,
+                                    //           prefixIcon: Icon(Icons.search,
+                                    //               color: Colors.black),
+                                    //         ),
+                                    //         textAlignVertical:
+                                    //             TextAlignVertical.center,
+                                    //         style:
+                                    //             TextStyle(color: Colors.black),
+                                    //       ),
+                                    //     ),
+                                    //     InkWell(
+                                    //       onTap: () {},
+                                    //       child: Container(
+                                    //         height: 38,
+                                    //         width: MediaQuery.of(context)
+                                    //                 .size
+                                    //                 .width /
+                                    //             13,
+                                    //         decoration: BoxDecoration(
+                                    //           color: AppColors.primaryColor,
+                                    //           borderRadius:
+                                    //               const BorderRadius.only(
+                                    //             topRight: Radius.circular(8),
+                                    //             bottomRight: Radius.circular(8),
+                                    //           ),
+                                    //         ),
+                                    //         child: Center(
+                                    //           child: Text(
+                                    //             "Search",
+                                    //             style: GoogleFonts.getFont(
+                                    //               "Poppins",
+                                    //               textStyle: TextStyle(
+                                    //                 fontSize: 14,
+                                    //                 fontWeight: FontWeight.w600,
+                                    //                 color:
+                                    //                     AppColors.secondryColor,
+                                    //               ),
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     const SizedBox(width: 12),
+                                    //   ],
+                                    // ),
                                     const SizedBox(height: 10),
                                     const Divider(),
                                     const SizedBox(height: 10),
