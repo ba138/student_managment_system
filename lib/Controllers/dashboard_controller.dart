@@ -21,7 +21,7 @@ class DashboardController extends GetxController {
       final lessonSnapshot = await firestore.collection('Lessons').get();
       final coursesSnapshot = await firestore.collection('Courses').get();
       final modulesSnapshot = await firestore.collection('Modules').get();
-      final studentsSnapshot = await firestore.collection('students').get();
+      final studentsSnapshot = await firestore.collection('Students').get();
 
       // Update state with fetched data
 
