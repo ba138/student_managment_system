@@ -6,6 +6,11 @@ import 'package:student_managment_system/Model/user_model.dart';
 class UserController extends GetxController {
   var users = <User>[].obs;
   var isLoading = false.obs;
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUsers();
+  }
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -13,7 +18,7 @@ class UserController extends GetxController {
     isLoading.value = true;
 
     try {
-      QuerySnapshot snapshot = await _firestore.collection('Users').get();
+      QuerySnapshot snapshot = await _firestore.collection('users').get();
 
       users.value = snapshot.docs
           .map((doc) => User.fromJson(doc.data() as Map<String, dynamic>))
