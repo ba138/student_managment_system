@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:student_managment_system/Pages/Courses/course.dart';
+import 'package:student_managment_system/Pages/Groups/group_detail_page.dart';
 import 'package:student_managment_system/Pages/MainPage/main_page.dart';
 import 'package:student_managment_system/Pages/User_page.dart/users_detail_page.dart';
 import 'package:student_managment_system/Pages/student_detail_page.dart';
@@ -61,13 +62,13 @@ class _SideMenuState extends State<SideMenu> {
             icon: Icons.person_2_outlined,
           ),
           DrawerListTile(
-            title: "Lecture",
+            title: "Groups",
             press: () {
-              // Navigator.of(context).pushReplacement(
-              //   MaterialPageRoute(
-              //     builder: (context) => const FamilyCommunityScreen(),
-              //   ),
-              // );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const GroupDetailPage(),
+                ),
+              );
             },
             icon: Icons.data_exploration_outlined,
           ),

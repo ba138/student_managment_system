@@ -5,9 +5,17 @@ import 'package:student_managment_system/Model/group_model.dart';
 class GroupController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   var groups = <Group>[].obs; // Reactive list to store all groups
+  var isLoading = false.obs;
+  @override
+  void onInit() {
+    super.onInit();
+    fetchAllGroups();
+  }
 
   // Function to fetch all groups from Firestore
   Future<void> fetchAllGroups() async {
+    isLoading.value = true;
+
     try {
       // Get all documents from the 'groups' collection
       QuerySnapshot snapshot = await _firestore.collection('groups').get();
@@ -18,6 +26,8 @@ class GroupController extends GetxController {
           .toList();
     } catch (e) {
       print("Error fetching groups: $e");
+    } finally {
+      isLoading.value = false;
     }
   }
 }
