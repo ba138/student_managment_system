@@ -117,7 +117,10 @@ class PieChartSample extends StatelessWidget {
       value: totalModules,
       radius: 30,
       titleStyle: const TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+        color: Colors.white,
+      ),
     ));
 
     sections.add(PieChartSectionData(
@@ -125,7 +128,10 @@ class PieChartSample extends StatelessWidget {
       value: totalStudents,
       radius: 30,
       titleStyle: const TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+        color: Colors.white,
+      ),
     ));
 
     sections.add(PieChartSectionData(
