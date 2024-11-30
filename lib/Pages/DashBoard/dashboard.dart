@@ -17,14 +17,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String addEllipsis(String text, int maxLength) {
-      if (text.length <= maxLength) {
-        return text;
-      } else {
-        return '${text.substring(0, maxLength)}...';
-      }
-    }
-
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -66,33 +58,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             const SizedBox(height: 20), // Add some spacing
 
-            SizedBox(
-              height: 400, // Adjust height as needed
-              child: Card(
-                  color: AppColors.secondryColor,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 12,
-                          top: 12,
-                        ),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Statistics Graph',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10), // Add spacing for the chart
-                      const LineChartSample2(),
-                    ],
-                  )),
+            const Align(
+              alignment: Alignment.topLeft,
+              child: PieChartSample(),
             ),
           ],
         ),

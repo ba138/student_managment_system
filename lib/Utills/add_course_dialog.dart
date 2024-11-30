@@ -134,14 +134,14 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
         for (var lesson in module["lessons"]) {
           lessonList.add(
             LessonModel(
-              lessonTitle: lesson["lessonTitle"].text,
+              lessonName: lesson["lessonTitle"].text,
               lessonDescription: lesson["lessonDescription"].text,
             ),
           );
         }
         moduleList.add(
           ModuleModel(
-            moduleTitle: module["moduleTitle"].text,
+            moduleName: module["moduleTitle"].text,
             description: module["moduleDescription"].text,
             lessons: lessonList,
           ),
@@ -252,6 +252,15 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                                 padding: const EdgeInsets.all(16.0),
                                 child: Column(
                                   children: [
+                                    Text(
+                                      "Module ${i + 1}",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
                                     _buildTextInput(
                                       "Module Title",
                                       "Enter Module Title",
@@ -274,6 +283,14 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Column(
                                             children: [
+                                              Text(
+                                                "Lesson ${j + 1}",
+                                                style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
                                               _buildTextInput(
                                                 "Lesson Title",
                                                 "Enter Lesson Title",
@@ -314,10 +331,20 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                           Obx(
                             () => ElevatedButton(
                               onPressed: isLoading.value ? null : _saveCourse,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryColor,
+                              ),
                               child: isLoading.value
-                                  ? const Center(
-                                      child: CircularProgressIndicator())
-                                  : const Text("Save Course"),
+                                  ? const CircularProgressIndicator()
+                                  : Text(
+                                      "Save Course",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.secondryColor,
+                                        ),
+                                      ),
+                                    ),
                             ),
                           ),
                         ],

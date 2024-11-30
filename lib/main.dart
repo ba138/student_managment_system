@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Student Management System',
       showSemanticsDebugger: false,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

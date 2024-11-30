@@ -27,7 +27,7 @@ class CourseController {
 
         // Add the module data to the "Modules" collection
         await _firestore.collection("Modules").doc(moduleId).set({
-          "moduleName": module.moduleTitle,
+          "moduleName": module.moduleName,
           "courseId": courseId, // Reference to the parent course
         });
 
@@ -38,7 +38,7 @@ class CourseController {
 
           // Add the lesson data to the "Lessons" collection
           await _firestore.collection("Lessons").doc(lessonId).set({
-            "lessonName": lesson.lessonTitle,
+            "lessonName": lesson.lessonName,
             "lessonDescription": lesson.lessonDescription,
             "moduleId": moduleId, // Reference to the parent module
           });
@@ -63,7 +63,7 @@ class CourseController {
 
       // Extract course-level data
       String courseTitle = courseData['courseName'] ?? '';
-      String imageUrl = courseData['imageUrl'] ?? '';
+      String imageUrl = courseData['courseImage'] ?? '';
       String courseDescription = courseData['courseDescription'] ?? '';
 
       // Fetch modules for the course
@@ -76,7 +76,7 @@ class CourseController {
 
       for (var moduleDoc in modulesSnapshot.docs) {
         var moduleData = moduleDoc.data();
-        String moduleTitle = moduleData['moduleTitle'] ?? '';
+        String moduleTitle = moduleData['moduleName'] ?? '';
         String description = moduleData['description'] ?? '';
         String moduleId = moduleDoc.id; // Use document ID if needed
 
@@ -89,14 +89,14 @@ class CourseController {
         List<LessonModel> lessons = lessonsSnapshot.docs.map((lessonDoc) {
           var lessonData = lessonDoc.data();
           return LessonModel(
-            lessonTitle: lessonData['lessonTitle'] ?? '',
+            lessonName: lessonData['lessonName'] ?? '',
             lessonDescription: lessonData['lessonDescription'] ?? '',
           );
         }).toList();
 
         // Create a module model and add it to the list
         modulesWithLessons.add(ModuleModel(
-          moduleTitle: moduleTitle,
+          moduleName: moduleTitle,
           description: description,
           lessons: lessons,
         ));
