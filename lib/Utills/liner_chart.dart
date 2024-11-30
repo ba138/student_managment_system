@@ -1,300 +1,120 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:student_managment_system/Utills/colors.dart';
+import '../Controllers/dashboard_controller.dart';
 
-class LineChartSample2 extends StatefulWidget {
-  const LineChartSample2({super.key});
-
-  @override
-  State<LineChartSample2> createState() => _LineChartSample2State();
-}
-
-class _LineChartSample2State extends State<LineChartSample2> {
-  List<Color> gradientColors = [AppColors.primaryColor, AppColors.primaryColor];
-  bool showAvg = false;
+class PieChartSample extends StatelessWidget {
+  const PieChartSample({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: 330,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 18,
-              left: 12,
-              top: 24,
-              bottom: 12,
-            ),
-            child: LineChart(
-              showAvg ? avgData() : mainData(),
-            ),
+    DashboardController dashboardController = Get.put(DashboardController());
+
+    return Obx(() {
+      // Accessing the values directly from the Rx variables
+      double totalModules =
+          double.parse(dashboardController.modulesString.value);
+      double totalStudents =
+          double.parse(dashboardController.studentsString.value);
+      double totalCourses =
+          double.parse(dashboardController.coursesString.value);
+      double totalGroups = double.parse(dashboardController.groupsString.value);
+      double totalUsers = double.parse(dashboardController.usersString.value);
+
+      return Card(
+        color: AppColors.secondryColor,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0), // Padding to the whole card
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Statistics Graph',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.blackColor,
+                ),
+              ),
+              const SizedBox(height: 10), // Space between text and chart
+              Container(
+                constraints: BoxConstraints(
+                  maxHeight: 250, // Limit the height
+                  maxWidth:
+                      MediaQuery.of(context).size.width * 0.4, // Limit width
+                ),
+                child: PieChart(
+                  PieChartData(
+                    sectionsSpace: 0,
+                    centerSpaceRadius: 50,
+                    sections: _buildPieSections(
+                      totalModules,
+                      totalStudents,
+                      totalCourses,
+                      totalGroups,
+                      totalUsers,
+                    ),
+                  ),
+                  duration: const Duration(seconds: 3),
+                ),
+              ),
+            ],
           ),
         ),
-        // Positioned(
-        //   top: 20,
-        //   left: 20,
-        //   child: SizedBox(
-        //     width: 60,
-        //     height: 34,
-        //     child: TextButton(
-        //       onPressed: () {
-        //         setState(() {
-        //           showAvg = false;
-        //         });
-        //       },
-        //       style: TextButton.styleFrom(
-        //         backgroundColor: showAvg
-        //             ? AppColors.primaryColor.withOpacity(0.8)
-        //             : AppColors.primaryColor.withOpacity(0.5),
-        //         shape: RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.circular(8),
-        //         ),
-        //       ),
-        //       child: Text(
-        //         'avg',
-        //         style: TextStyle(
-        //           fontSize: 12,
-        //           color: Colors.white,
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-      ],
-    );
+      );
+    });
   }
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 16,
-    );
-    Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('', style: style);
-        break;
-      case 5:
-        text = const Text('Attendance', style: style);
-        break;
-      case 8:
-        text = const Text('', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
-    }
+  List<PieChartSectionData> _buildPieSections(
+    double totalModules,
+    double totalStudents,
+    double totalCourses,
+    double totalGroups,
+    double totalUsers,
+  ) {
+    List<PieChartSectionData> sections = [];
 
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: text,
-    );
-  }
+    sections.add(PieChartSectionData(
+      color: Colors.blue,
+      value: totalModules,
+      title: 'Modules',
+      radius: 30,
+      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    ));
 
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 15,
-    );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '';
-        break;
-      case 3:
-        text = 'Students';
-        break;
-      case 5:
-        text = '';
-        break;
-      default:
-        return Container();
-    }
+    sections.add(PieChartSectionData(
+      color: Colors.green,
+      value: totalStudents,
+      title: 'Students',
+      radius: 30,
+      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    ));
 
-    return RotatedBox(
-      quarterTurns: 3, // Rotates the text (bottom to top)
-      child: Text(text, style: style, textAlign: TextAlign.left),
-    );
-  }
+    sections.add(PieChartSectionData(
+      color: Colors.orange,
+      value: totalCourses,
+      title: 'Courses',
+      radius: 30,
+      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    ));
 
-  LineChartData mainData() {
-    return LineChartData(
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-        horizontalInterval: 1,
-        verticalInterval: 1,
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: AppColors.primaryColor,
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Colors.transparent,
-            strokeWidth: 1,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            interval: 1,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-          ),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: const Border(
-          bottom: BorderSide(color: Color(0xff37434d), width: 1),
-          left: BorderSide(color: Color(0xff37434d), width: 1),
-        ),
-      ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: gradientColors,
-          ),
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+    sections.add(PieChartSectionData(
+      color: Colors.purple,
+      value: totalUsers,
+      title: 'Users',
+      radius: 30,
+      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    ));
 
-  LineChartData avgData() {
-    return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false),
-      gridData: FlGridData(
-        show: false,
-        drawHorizontalLine: false,
-        verticalInterval: 1,
-        horizontalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-        // getDrawingHorizontalLine: (value) {
-        //   return const FlLine(
-        //     color: Color(0xff37434d),
-        //     strokeWidth: 1,
-        //   );
-        // },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            getTitlesWidget: bottomTitleWidgets,
-            interval: 1,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-            interval: 1,
-          ),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: const Border(
-          bottom: BorderSide(color: Color(0xff37434d), width: 1),
-          right: BorderSide(color: Color(0xff37434d), width: 1),
-        ),
-      ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
-          ],
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: gradientColors,
-          ),
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.1))
-                  .toList(),
-            ),
-          ),
-        ),
-      ],
-    );
+    sections.add(PieChartSectionData(
+      color: Colors.yellow,
+      value: totalGroups,
+      title: 'Groups',
+      radius: 30,
+      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    ));
+
+    return sections;
   }
 }
