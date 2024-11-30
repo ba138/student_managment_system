@@ -41,8 +41,8 @@ class PieChartSample extends StatelessWidget {
               Container(
                 constraints: BoxConstraints(
                   maxHeight: 250, // Limit the height
-                  maxWidth:
-                      MediaQuery.of(context).size.width * 0.4, // Limit width
+                  maxWidth: MediaQuery.of(context).size.width *
+                      0.8, // Limit width to 80% of screen width
                 ),
                 child: PieChart(
                   PieChartData(
@@ -59,11 +59,48 @@ class PieChartSample extends StatelessWidget {
                   duration: const Duration(seconds: 3),
                 ),
               ),
+              const SizedBox(height: 20), // Space between chart and legend
+              // Legend section for color explanations
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _buildLegendItem(Colors.blue, 'Modules'),
+                  const SizedBox(width: 10),
+                  _buildLegendItem(AppColors.primaryColor, 'Students'),
+                  const SizedBox(width: 10),
+                  _buildLegendItem(Colors.orange, 'Courses'),
+                  const SizedBox(width: 10),
+                  _buildLegendItem(Colors.purple, 'Users'),
+                  const SizedBox(width: 10),
+                  _buildLegendItem(Colors.yellow, 'Groups'),
+                ],
+              ),
             ],
           ),
         ),
       );
     });
+  }
+
+  Widget _buildLegendItem(Color color, String label) {
+    return Row(
+      children: [
+        Container(
+          width: 20,
+          height: 20,
+          color: color,
+        ),
+        const SizedBox(width: 5), // Space between color and label
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: AppColors.blackColor,
+          ),
+        ),
+      ],
+    );
   }
 
   List<PieChartSectionData> _buildPieSections(
@@ -78,41 +115,41 @@ class PieChartSample extends StatelessWidget {
     sections.add(PieChartSectionData(
       color: Colors.blue,
       value: totalModules,
-      title: 'Modules',
       radius: 30,
-      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      titleStyle: const TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
     ));
 
     sections.add(PieChartSectionData(
-      color: Colors.green,
+      color: AppColors.primaryColor,
       value: totalStudents,
-      title: 'Students',
       radius: 30,
-      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      titleStyle: const TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
     ));
 
     sections.add(PieChartSectionData(
       color: Colors.orange,
       value: totalCourses,
-      title: 'Courses',
       radius: 30,
-      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      titleStyle: const TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
     ));
 
     sections.add(PieChartSectionData(
       color: Colors.purple,
       value: totalUsers,
-      title: 'Users',
       radius: 30,
-      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      titleStyle: const TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
     ));
 
     sections.add(PieChartSectionData(
       color: Colors.yellow,
       value: totalGroups,
-      title: 'Groups',
       radius: 30,
-      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      titleStyle: const TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
     ));
 
     return sections;
