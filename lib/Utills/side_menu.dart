@@ -48,7 +48,7 @@ class _SideMenuState extends State<SideMenu> {
                 ),
               );
             },
-            icon: Icons.group_outlined,
+            icon: Icons.cable_outlined,
           ),
           DrawerListTile(
             title: "Users",
@@ -77,11 +77,11 @@ class _SideMenuState extends State<SideMenu> {
             press: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => StudentDetailPage(),
+                  builder: (context) => const StudentDetailPage(),
                 ),
               );
             },
-            icon: Icons.group,
+            icon: Icons.group_outlined,
           ),
         ],
       ),

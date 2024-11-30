@@ -1,41 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
-
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="student_managment_system">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
-
   <title>student_managment_system</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
   <script>
-     window.addEventListener('load', function(ev) {
+    window.addEventListener('load', function(ev) {
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
@@ -46,6 +27,30 @@
           });
         }
       });
+    });
+
+    // Prevent window resize below a certain size
+    const minWidth = 1024; // Minimum width
+    const minHeight = 768; // Minimum height
+
+    // Resize back to the original size when window is restored or resized smaller
+    window.addEventListener('resize', function() {
+      if (window.innerWidth < minWidth || window.innerHeight < minHeight) {
+        // Resize the window back to the minimum size
+        window.resizeTo(minWidth, minHeight);
+      }
+    });
+
+    // Trigger the window to maximize when it loses focus (restored down)
+    window.addEventListener('blur', function() {
+      // When the window loses focus (minimized), set the window to its original size
+      window.resizeTo(screen.width, screen.height);
+    });
+
+    // Ask the user before leaving the page (close action)
+    window.addEventListener('beforeunload', function(event) {
+      // Custom message for closing the window
+      event.returnValue = "Are you sure you want to leave?";
     });
   </script>
 </body>

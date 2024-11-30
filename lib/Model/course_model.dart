@@ -22,19 +22,19 @@ class Courses {
 }
 
 class ModuleModel {
-  final String moduleTitle;
+  final String moduleName;
   final String description; // Required description field for the module
   final List<LessonModel> lessons;
 
   ModuleModel({
-    required this.moduleTitle,
+    required this.moduleName,
     required this.description, // Now required
     required this.lessons,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      "moduleTitle": moduleTitle,
+      "moduleTitle": moduleName,
       "description": description, // Add description to the map
       "lessons": lessons.map((lesson) => lesson.toMap()).toList(),
     };
@@ -42,17 +42,17 @@ class ModuleModel {
 }
 
 class LessonModel {
-  final String lessonTitle;
+  final String lessonName;
   final String lessonDescription;
 
   LessonModel({
-    required this.lessonTitle,
+    required this.lessonName,
     required this.lessonDescription,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      "lessonTitle": lessonTitle,
+      "lessonTitle": lessonName,
       "lessonDescription": lessonDescription,
     };
   }
