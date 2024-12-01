@@ -216,6 +216,18 @@ class GroupDetailPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Center(
+                                            child: Text(
+                                              'Status',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.transparent,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     const SizedBox(height: 10),
@@ -292,6 +304,30 @@ class GroupDetailPage extends StatelessWidget {
                                                             : Colors.red,
                                                       ),
                                                     )),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Container(
+                                                        height: 28,
+                                                        width: 50,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(6),
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            group.status,
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                        )),
                                                   ),
                                                 ],
                                               ),
