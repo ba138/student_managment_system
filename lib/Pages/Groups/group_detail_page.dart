@@ -217,7 +217,7 @@ class GroupDetailPage extends StatelessWidget {
                                           ),
                                         ),
                                         Expanded(
-                                          flex: 2,
+                                          flex: 1,
                                           child: Center(
                                             child: Text(
                                               'Status',
@@ -318,9 +318,9 @@ class GroupDetailPage extends StatelessWidget {
                                                               BorderRadius
                                                                   .circular(6),
                                                         ),
-                                                        child: Center(
+                                                        child: const Center(
                                                           child: Text(
-                                                            group.status,
+                                                            "Share",
                                                             style:
                                                                 const TextStyle(
                                                               color:
