@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:student_managment_system/Controllers/group_controller.dart';
+import 'package:student_managment_system/Pages/Groups/widgets/user_list_dialog.dart';
 import 'package:student_managment_system/Utills/colors.dart';
 import 'package:student_managment_system/Utills/global_keys.dart';
 import 'package:student_managment_system/Utills/header.dart';
@@ -64,92 +65,7 @@ class GroupDetailPage extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    // const SizedBox(height: 16),
-                                    // Row(
-                                    //   children: [
-                                    //     // Search box for groups
-                                    //     Container(
-                                    //       height: 38,
-                                    //       width: MediaQuery.of(context)
-                                    //               .size
-                                    //               .width /
-                                    //           5,
-                                    //       decoration: BoxDecoration(
-                                    //         border: Border(
-                                    //           left: BorderSide(
-                                    //             color: AppColors.primaryColor,
-                                    //             width: 1.0,
-                                    //           ),
-                                    //           top: BorderSide(
-                                    //             color: AppColors.primaryColor,
-                                    //             width: 1.0,
-                                    //           ),
-                                    //           bottom: BorderSide(
-                                    //             color: AppColors.primaryColor,
-                                    //             width: 1.0,
-                                    //           ),
-                                    //           right: BorderSide.none,
-                                    //         ),
-                                    //         borderRadius:
-                                    //             const BorderRadius.only(
-                                    //           topLeft: Radius.circular(8),
-                                    //           bottomLeft: Radius.circular(8),
-                                    //         ),
-                                    //       ),
-                                    //       child: const TextField(
-                                    //         decoration: InputDecoration(
-                                    //           isDense: true,
-                                    //           contentPadding:
-                                    //               EdgeInsets.symmetric(
-                                    //                   vertical: 8.0),
-                                    //           hintText: 'Search groups',
-                                    //           hintStyle: TextStyle(
-                                    //               color: Colors.black),
-                                    //           border: InputBorder.none,
-                                    //           prefixIcon: Icon(Icons.search,
-                                    //               color: Colors.black),
-                                    //         ),
-                                    //         textAlignVertical:
-                                    //             TextAlignVertical.center,
-                                    //         style:
-                                    //             TextStyle(color: Colors.black),
-                                    //       ),
-                                    //     ),
-                                    //     InkWell(
-                                    //       onTap: () {},
-                                    //       child: Container(
-                                    //         height: 38,
-                                    //         width: MediaQuery.of(context)
-                                    //                 .size
-                                    //                 .width /
-                                    //             13,
-                                    //         decoration: BoxDecoration(
-                                    //           color: AppColors.primaryColor,
-                                    //           borderRadius:
-                                    //               const BorderRadius.only(
-                                    //             topRight: Radius.circular(8),
-                                    //             bottomRight: Radius.circular(8),
-                                    //           ),
-                                    //         ),
-                                    //         child: Center(
-                                    //           child: Text(
-                                    //             "Search",
-                                    //             style: GoogleFonts.getFont(
-                                    //               "Poppins",
-                                    //               textStyle: TextStyle(
-                                    //                 fontSize: 14,
-                                    //                 fontWeight: FontWeight.w600,
-                                    //                 color:
-                                    //                     AppColors.secondryColor,
-                                    //               ),
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //     const SizedBox(width: 12),
-                                    //   ],
-                                    // ),
+
                                     const SizedBox(height: 10),
                                     const Divider(),
                                     const SizedBox(height: 10),
@@ -212,6 +128,18 @@ class GroupDetailPage extends StatelessWidget {
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Center(
+                                            child: Text(
+                                              'Status',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.transparent,
                                               ),
                                             ),
                                           ),
@@ -292,6 +220,36 @@ class GroupDetailPage extends StatelessWidget {
                                                             : Colors.red,
                                                       ),
                                                     )),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: InkWell(
+                                                      onTap: () async {
+                                                        await showUserSelectionDialog(
+                                                            context, group);
+                                                      },
+                                                      child: Container(
+                                                          height: 28,
+                                                          width: 50,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: AppColors
+                                                                .primaryColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6),
+                                                          ),
+                                                          child: const Center(
+                                                            child: Text(
+                                                              "Share",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          )),
+                                                    ),
                                                   ),
                                                 ],
                                               ),

@@ -46,14 +46,18 @@ class CourseDetailPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             // Course Image
-                            Card(
-                              elevation: 5,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  course.imageUrl,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
+                            SizedBox(
+                              height: 250,
+                              width: 250,
+                              child: Card(
+                                elevation: 5,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    course.imageUrl,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
