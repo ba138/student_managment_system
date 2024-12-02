@@ -55,13 +55,13 @@ class GroupController extends GetxController {
           .collection('users')
           .doc(userId)
           .collection("groups")
-          .doc(group.uid)
+          .doc(group.groupUId)
           .set(groupData);
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
           .collection("groups")
-          .doc(group.uid)
+          .doc(group.groupUId)
           .update({"createdBy": userId});
 
       Get.snackbar('Success', 'Group shared successfully.');

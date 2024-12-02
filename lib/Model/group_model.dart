@@ -64,7 +64,7 @@ class Group {
   final List<Participant> participants;
   final List<Course> selectedCourses;
   final String status;
-  final String uid;
+  final String groupUId;
 
   Group({
     required this.createdBy,
@@ -72,7 +72,7 @@ class Group {
     required this.participants,
     required this.selectedCourses,
     required this.status,
-    required this.uid,
+    required this.groupUId,
   });
 
   // From JSON
@@ -91,7 +91,7 @@ class Group {
       participants: participantsList,
       selectedCourses: coursesList,
       status: json['status'] ?? '',
-      uid: json['uid'] ?? '',
+      groupUId: json['groupUId'] ?? '',
     );
   }
 
@@ -105,7 +105,7 @@ class Group {
       'selectedCourses':
           selectedCourses.map((course) => course.toJson()).toList(),
       'status': status,
-      'uid': uid,
+      'uid': groupUId,
     };
   }
 }
