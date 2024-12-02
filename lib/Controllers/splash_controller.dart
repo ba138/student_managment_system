@@ -1,17 +1,32 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:student_managment_system/Pages/LoginScreen/LoginScreen.dart';
 import 'package:student_managment_system/Pages/MainPage/main_page.dart';
 
-class SplashController {
-  Future<void> timer(BuildContext context) async {
-    Timer(const Duration(seconds: 3), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (c) => const MainPage(),
-        ),
-      );
-    });
+class SplashController extends GetxController {
+  final auth = FirebaseAuth.instance;
+  @override
+  void onInit() async {
+    super.onInit();
+    await seasionHandler();
+  }
+
+  Future<void> seasionHandler() async {
+    Future.delayed(
+      const Duration(seconds: 3),
+      () {
+        if (auth.currentUser == null) {
+          Get.offAll(
+            () => const Loginscreen(),
+          );
+        } else {
+          Get.offAll(
+            () => const MainPage(),
+          );
+        }
+      },
+    );
   }
 }

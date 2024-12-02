@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:student_managment_system/Controllers/splash_controller.dart';
 
 import '../../Utills/colors.dart';
@@ -8,14 +9,13 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SplashController splashController = SplashController();
-    splashController.timer(context);
+    SplashController splashController = Get.put(SplashController());
+
     return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(
-          color: AppColors.primaryColor,
-        )
-      ),
+          child: CircularProgressIndicator(
+        color: AppColors.primaryColor,
+      )),
     );
   }
 }
