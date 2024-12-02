@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:student_managment_system/Controllers/group_controller.dart';
+import 'package:student_managment_system/Pages/Groups/widgets/user_list_dialog.dart';
 import 'package:student_managment_system/Utills/colors.dart';
 import 'package:student_managment_system/Utills/global_keys.dart';
 import 'package:student_managment_system/Utills/header.dart';
@@ -222,26 +223,33 @@ class GroupDetailPage extends StatelessWidget {
                                                   ),
                                                   Expanded(
                                                     flex: 1,
-                                                    child: Container(
-                                                        height: 28,
-                                                        width: 50,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: AppColors
-                                                              .primaryColor,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(6),
-                                                        ),
-                                                        child: const Center(
-                                                          child: Text(
-                                                            "Share",
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
+                                                    child: InkWell(
+                                                      onTap: () async {
+                                                        await showUserSelectionDialog(
+                                                            context, group);
+                                                      },
+                                                      child: Container(
+                                                          height: 28,
+                                                          width: 50,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: AppColors
+                                                                .primaryColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6),
                                                           ),
-                                                        )),
+                                                          child: const Center(
+                                                            child: Text(
+                                                              "Share",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          )),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
