@@ -26,7 +26,7 @@ class GroupController extends GetxController {
           .map((doc) => Group.fromJson(doc.data() as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      print("Error fetching groups: $e");
+      debugPrint("Error fetching groups: $e");
     } finally {
       isLoading.value = false;
     }
@@ -42,7 +42,7 @@ class GroupController extends GetxController {
         users.add({'id': doc.id, ...doc.data()});
       }
     } catch (e) {
-      print("Error fetching users: $e");
+      debugPrint("Error fetching users: $e");
     }
 
     return users;
@@ -52,11 +52,15 @@ class GroupController extends GetxController {
     try {
       final groupData = group.toJson();
       await FirebaseFirestore.instance
-          .collection('usersgroups')
+          .collection('users')
+          .doc(userId)
+          .collection("groups")
           .doc(group.uid)
           .set(groupData);
       await FirebaseFirestore.instance
-          .collection('usersgroups')
+          .collection('users')
+          .doc(userId)
+          .collection("groups")
           .doc(group.uid)
           .update({"createdBy": userId});
 
