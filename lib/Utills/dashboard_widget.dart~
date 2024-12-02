@@ -58,7 +58,7 @@ class DashboardWidget extends StatelessWidget {
                 Text(
                   title,
                   style: GoogleFonts.getFont(
-                    "Poppins",
+                    "Vardana",
                     textStyle: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,

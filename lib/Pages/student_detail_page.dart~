@@ -62,10 +62,7 @@ class StudentDetailPage extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(height: 16),
-                                    Divider(
-                                      color: AppColors.primaryColor,
-                                      thickness: 2,
-                                    ),
+                                    const Divider(),
                                     const SizedBox(height: 10),
                                     const Row(
                                       children: [
@@ -132,10 +129,7 @@ class StudentDetailPage extends StatelessWidget {
                                       ],
                                     ),
                                     const SizedBox(height: 10),
-                                    Divider(
-                                      color: AppColors.primaryColor,
-                                      thickness: 2,
-                                    ),
+                                    const Divider(),
                                     const SizedBox(height: 10),
 
                                     // Use Obx to display data dynamically
