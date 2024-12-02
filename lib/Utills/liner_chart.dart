@@ -32,10 +32,14 @@ class PieChartSample extends StatelessWidget {
               Text(
                 'Statistics Graph',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: AppColors.blackColor,
                 ),
+              ),
+              Divider(
+                color: AppColors.primaryColor,
+                thickness: 2,
               ),
               const SizedBox(height: 10), // Space between text and chart
               Container(

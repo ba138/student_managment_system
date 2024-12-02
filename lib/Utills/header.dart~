@@ -15,7 +15,7 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primaryColor,
+      color: Colors.redAccent,
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -33,7 +33,7 @@ class Header extends StatelessWidget {
               child: Text("World Being",
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.white,
+                    color: AppColors.primaryColor,
                     fontWeight: FontWeight.bold,
                   )),
             ),

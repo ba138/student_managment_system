@@ -210,21 +210,24 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                                       "Enter Course Description",
                                       controller: courseDescriptionController),
                                   const SizedBox(height: 16),
-                                  TextButton(
-                                    onPressed: _pickImage,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center ,
-                                      children: [
-                                        Text(
-                                          "Pick Course Image",
-                                          style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w600,
-                                            color: AppColors.primaryColor,
+                                  Card(
+                                    elevation: 5,
+                                    child: TextButton(
+                                      onPressed: _pickImage,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center ,
+                                        children: [
+                                          Text(
+                                            "Pick Course Image",
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w600,
+                                              color: AppColors.primaryColor,
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                         Icon(Icons.image, color:AppColors.primaryColor),
-                                      ],
+                                          const SizedBox(width: 8),
+                                           Icon(Icons.image, color:AppColors.primaryColor),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   if (imageBytes != null)

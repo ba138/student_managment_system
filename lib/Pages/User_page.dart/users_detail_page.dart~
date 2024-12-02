@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:student_managment_system/Controllers/group_controller.dart';
+import 'package:student_managment_system/Controllers/user_controller.dart';
 import 'package:student_managment_system/Utills/colors.dart';
 import 'package:student_managment_system/Utills/global_keys.dart';
 import 'package:student_managment_system/Utills/header.dart';
 import 'package:student_managment_system/Utills/responsive.dart';
+import 'package:student_managment_system/Utills/side_menu.dart';
 
-import '../../Utills/side_menu.dart';
-
-class GroupDetailPage extends StatelessWidget {
-  const GroupDetailPage({super.key});
+class UserDetailPage extends StatelessWidget {
+  const UserDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final GroupController groupController = Get.put(GroupController());
+    // Initialize the UserController
+    final UserController userController = Get.put(UserController());
 
     return Scaffold(
       key: getCourseScaffoldKey,
       body: SafeArea(
         child: Column(
           children: [
-            // Header with a callback for the menu or other actions
             SizedBox(
               height: 64,
               child: Header(fct: () {}),
@@ -31,10 +30,9 @@ class GroupDetailPage extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Side menu for larger screens (Desktop)
                   if (Responsive.isDesktop(context))
                     const SizedBox(
-                      width: 250,
+                      width: 250, // Set the width of the side menu
                       child: SideMenu(),
                     ),
                   Expanded(
@@ -54,7 +52,7 @@ class GroupDetailPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Groups",
+                                      "Users",
                                       style: GoogleFonts.getFont(
                                         "Poppins",
                                         textStyle: TextStyle(
@@ -67,7 +65,6 @@ class GroupDetailPage extends StatelessWidget {
                                     // const SizedBox(height: 16),
                                     // Row(
                                     //   children: [
-                                    //     // Search box for groups
                                     //     Container(
                                     //       height: 38,
                                     //       width: MediaQuery.of(context)
@@ -102,7 +99,7 @@ class GroupDetailPage extends StatelessWidget {
                                     //           contentPadding:
                                     //               EdgeInsets.symmetric(
                                     //                   vertical: 8.0),
-                                    //           hintText: 'Search groups',
+                                    //           hintText: 'Search here',
                                     //           hintStyle: TextStyle(
                                     //               color: Colors.black),
                                     //           border: InputBorder.none,
@@ -157,6 +154,7 @@ class GroupDetailPage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 10),
 
+                                    // Headers for user data (with consistent flex values)
                                     const Row(
                                       children: [
                                         Expanded(
@@ -175,7 +173,7 @@ class GroupDetailPage extends StatelessWidget {
                                           flex: 3,
                                           child: Center(
                                             child: Text(
-                                              'Group Title',
+                                              'Name',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black,
@@ -184,10 +182,10 @@ class GroupDetailPage extends StatelessWidget {
                                           ),
                                         ),
                                         Expanded(
-                                          flex: 2,
+                                          flex: 3,
                                           child: Center(
                                             child: Text(
-                                              'Participants',
+                                              'Email',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black,
@@ -195,30 +193,30 @@ class GroupDetailPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Center(
-                                            child: Text(
-                                              'Courses',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Center(
-                                            child: Text(
-                                              'Status',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                        // Expanded(
+                                        //   flex: 2,
+                                        //   child: Center(
+                                        //     child: Text(
+                                        //       'Status',
+                                        //       style: TextStyle(
+                                        //         fontWeight: FontWeight.bold,
+                                        //         color: Colors.black,
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        // Expanded(
+                                        //   flex: 2,
+                                        //   child: Center(
+                                        //     child: Text(
+                                        //       'Verified',
+                                        //       style: TextStyle(
+                                        //         fontWeight: FontWeight.bold,
+                                        //         color: Colors.transparent,
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
                                       ],
                                     ),
                                     const SizedBox(height: 10),
@@ -228,77 +226,67 @@ class GroupDetailPage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 10),
 
-                                    // Display groups
+                                    // Display users
                                     Obx(() {
-                                      if (groupController.isLoading.value) {
+                                      if (userController.isLoading.value) {
                                         return const Center(
                                             child: CircularProgressIndicator());
                                       }
 
-                                      if (groupController.groups.isEmpty) {
+                                      if (userController.users.isEmpty) {
                                         return const Center(
-                                            child: Text("No groups found."));
+                                            child: Text("No users found."));
                                       }
 
                                       return Column(
                                         children: List.generate(
-                                          groupController.groups.length,
+                                          userController.users.length,
                                           (index) {
-                                            final group =
-                                                groupController.groups[index];
+                                            final user =
+                                                userController.users[index];
                                             return Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
                                                       vertical: 8.0),
                                               child: Row(
                                                 children: [
-                                                  // S.No
                                                   Expanded(
                                                     flex: 1,
                                                     child: Center(
                                                         child: Text(
                                                             "${index + 1}")),
-                                                  ),
-                                                  // Group Title
+                                                  ), // S.No
                                                   Expanded(
-                                                    flex: 3,
+                                                    flex: 1,
                                                     child: Center(
-                                                        child: Text(
-                                                            group.groupTitle)),
-                                                  ),
-                                                  // Participants
+                                                        child: Text(user.name)),
+                                                  ), // Name
                                                   Expanded(
                                                     flex: 2,
                                                     child: Center(
-                                                        child: Text(group
-                                                            .participants.length
-                                                            .toString())),
-                                                  ),
-                                                  // Courses
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Center(
-                                                      child: Text(
-                                                        group.selectedCourses
-                                                            .length
-                                                            .toString(),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  // Status
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Center(
-                                                        child: Text(
-                                                      group.status,
-                                                      style: TextStyle(
-                                                        color: group.status ==
-                                                                "Active"
-                                                            ? Colors.green
-                                                            : Colors.red,
-                                                      ),
-                                                    )),
-                                                  ),
+                                                        child:
+                                                            Text(user.email)),
+                                                  ), // Email
+                                                  // Expanded(
+                                                  //   flex: 2,
+                                                  //   child: Center(
+                                                  //       child: Text(
+                                                  //     "Verified",
+                                                  //     style: TextStyle(
+                                                  //       color: Colors.green,
+                                                  //     ),
+                                                  //   )),
+                                                  // ), // Status
+                                                  // const Expanded(
+                                                  //   flex: 2,
+                                                  //   child: Text(
+                                                  //     "Verified",
+                                                  //     style: TextStyle(
+                                                  //       color:
+                                                  //           Colors.transparent,
+                                                  //     ),
+                                                  //   ),
+                                                  // ), // Empty column for alignment
                                                 ],
                                               ),
                                             );

@@ -151,10 +151,7 @@ class GroupDetailPage extends StatelessWidget {
                                     //   ],
                                     // ),
                                     const SizedBox(height: 10),
-                                    Divider(
-                                      color: AppColors.primaryColor,
-                                      thickness: 2,
-                                    ),
+                                    const Divider(),
                                     const SizedBox(height: 10),
 
                                     const Row(
@@ -222,10 +219,7 @@ class GroupDetailPage extends StatelessWidget {
                                       ],
                                     ),
                                     const SizedBox(height: 10),
-                                    Divider(
-                                      color: AppColors.primaryColor,
-                                      thickness: 2,
-                                    ),
+                                    const Divider(),
                                     const SizedBox(height: 10),
 
                                     // Display groups

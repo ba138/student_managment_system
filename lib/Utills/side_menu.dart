@@ -9,19 +9,30 @@ import 'package:student_managment_system/Pages/student_detail_page.dart';
 import 'colors.dart';
 
 class SideMenu extends StatefulWidget {
-  const SideMenu({
-    super.key,
-  });
+  const SideMenu({super.key});
 
   @override
   State<SideMenu> createState() => _SideMenuState();
 }
 
 class _SideMenuState extends State<SideMenu> {
+  String _selectedTab = "Dashboard"; // Keeps track of the selected tab
+
+  void _onTabSelected(String tabName, Widget page) {
+    setState(() {
+      _selectedTab = tabName;
+    });
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => page,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.red.shade50, // Light red background color
       elevation: 2,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
@@ -30,57 +41,32 @@ class _SideMenuState extends State<SideMenu> {
         children: [
           DrawerListTile(
             title: "Dashboard",
-            press: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const MainPage(),
-                ),
-              );
-            },
+            isSelected: _selectedTab == "Dashboard",
+            press: () => _onTabSelected("Dashboard", const MainPage()),
             icon: Icons.home_outlined,
           ),
           DrawerListTile(
             title: "Courses",
-            press: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const CoursePage(),
-                ),
-              );
-            },
+            isSelected: _selectedTab == "Courses",
+            press: () => _onTabSelected("Courses", const CoursePage()),
             icon: Icons.cable_outlined,
           ),
           DrawerListTile(
             title: "Users",
-            press: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const UserDetailPage(),
-                ),
-              );
-            },
+            isSelected: _selectedTab == "Users",
+            press: () => _onTabSelected("Users", const UserDetailPage()),
             icon: Icons.person_2_outlined,
           ),
           DrawerListTile(
             title: "Groups",
-            press: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const GroupDetailPage(),
-                ),
-              );
-            },
+            isSelected: _selectedTab == "Groups",
+            press: () => _onTabSelected("Groups", const GroupDetailPage()),
             icon: Icons.data_exploration_outlined,
           ),
           DrawerListTile(
             title: "Students",
-            press: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const StudentDetailPage(),
-                ),
-              );
-            },
+            isSelected: _selectedTab == "Students",
+            press: () => _onTabSelected("Students", const StudentDetailPage()),
             icon: Icons.group_outlined,
           ),
         ],
@@ -90,18 +76,21 @@ class _SideMenuState extends State<SideMenu> {
 }
 
 class DrawerListTile extends StatelessWidget {
-  const DrawerListTile(
-      {super.key,
-      // For selecting those three line once press "Command+D"
-      required this.title,
-      required this.press,
-      this.imageIcon,
-      this.icon});
+  const DrawerListTile({
+    super.key,
+    required this.title,
+    required this.press,
+    this.imageIcon,
+    this.icon,
+    this.isSelected = false,
+  });
 
   final String title;
   final VoidCallback press;
   final String? imageIcon;
   final IconData? icon;
+  final bool isSelected; // Indicates if the tab is selected
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -109,17 +98,17 @@ class DrawerListTile extends StatelessWidget {
       horizontalTitleGap: 0.0,
       leading: imageIcon != null
           ? ImageIcon(
-              AssetImage(
-                imageIcon!,
-              ),
-              color: AppColors.blackColor,
-              size: 20,
-            )
+        AssetImage(
+          imageIcon!,
+        ),
+        color: isSelected ? Colors.red : AppColors.blackColor,
+        size: 20,
+      )
           : Icon(
-              icon,
-              color: AppColors.blackColor,
-              size: 20,
-            ),
+        icon,
+        color: isSelected ? Colors.red : AppColors.blackColor,
+        size: 20,
+      ),
       minLeadingWidth: 40,
       title: Text(
         title,
@@ -128,7 +117,7 @@ class DrawerListTile extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: AppColors.blackColor,
+            color: isSelected ? Colors.red : AppColors.blackColor,
           ),
         ),
       ),

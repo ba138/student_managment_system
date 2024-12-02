@@ -13,7 +13,6 @@ class UserDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize the UserController
     final UserController userController = Get.put(UserController());
 
     return Scaffold(
@@ -32,19 +31,18 @@ class UserDetailPage extends StatelessWidget {
                 children: [
                   if (Responsive.isDesktop(context))
                     const SizedBox(
-                      width: 250, // Set the width of the side menu
+                      width: 250,
                       child: SideMenu(),
                     ),
                   Expanded(
                     child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 16.0, right: 16),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: double.infinity,
                               color: AppColors.secondryColor,
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
@@ -53,107 +51,21 @@ class UserDetailPage extends StatelessWidget {
                                   children: [
                                     Text(
                                       "Users",
-                                      style: GoogleFonts.getFont(
-                                        "Poppins",
-                                        textStyle: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w600,
-                                          color: AppColors.blackColor,
-                                        ),
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.blackColor,
                                       ),
                                     ),
-                                    // const SizedBox(height: 16),
-                                    // Row(
-                                    //   children: [
-                                    //     Container(
-                                    //       height: 38,
-                                    //       width: MediaQuery.of(context)
-                                    //               .size
-                                    //               .width /
-                                    //           5,
-                                    //       decoration: BoxDecoration(
-                                    //         border: Border(
-                                    //           left: BorderSide(
-                                    //             color: AppColors.primaryColor,
-                                    //             width: 1.0,
-                                    //           ),
-                                    //           top: BorderSide(
-                                    //             color: AppColors.primaryColor,
-                                    //             width: 1.0,
-                                    //           ),
-                                    //           bottom: BorderSide(
-                                    //             color: AppColors.primaryColor,
-                                    //             width: 1.0,
-                                    //           ),
-                                    //           right: BorderSide.none,
-                                    //         ),
-                                    //         borderRadius:
-                                    //             const BorderRadius.only(
-                                    //           topLeft: Radius.circular(8),
-                                    //           bottomLeft: Radius.circular(8),
-                                    //         ),
-                                    //       ),
-                                    //       child: const TextField(
-                                    //         decoration: InputDecoration(
-                                    //           isDense: true,
-                                    //           contentPadding:
-                                    //               EdgeInsets.symmetric(
-                                    //                   vertical: 8.0),
-                                    //           hintText: 'Search here',
-                                    //           hintStyle: TextStyle(
-                                    //               color: Colors.black),
-                                    //           border: InputBorder.none,
-                                    //           prefixIcon: Icon(Icons.search,
-                                    //               color: Colors.black),
-                                    //         ),
-                                    //         textAlignVertical:
-                                    //             TextAlignVertical.center,
-                                    //         style:
-                                    //             TextStyle(color: Colors.black),
-                                    //       ),
-                                    //     ),
-                                    //     InkWell(
-                                    //       onTap: () {},
-                                    //       child: Container(
-                                    //         height: 38,
-                                    //         width: MediaQuery.of(context)
-                                    //                 .size
-                                    //                 .width /
-                                    //             13,
-                                    //         decoration: BoxDecoration(
-                                    //           color: AppColors.primaryColor,
-                                    //           borderRadius:
-                                    //               const BorderRadius.only(
-                                    //             topRight: Radius.circular(8),
-                                    //             bottomRight: Radius.circular(8),
-                                    //           ),
-                                    //         ),
-                                    //         child: Center(
-                                    //           child: Text(
-                                    //             "Search",
-                                    //             style: GoogleFonts.getFont(
-                                    //               "Poppins",
-                                    //               textStyle: TextStyle(
-                                    //                 fontSize: 14,
-                                    //                 fontWeight: FontWeight.w600,
-                                    //                 color:
-                                    //                     AppColors.secondryColor,
-                                    //               ),
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //     const SizedBox(width: 12),
-                                    //   ],
-                                    // ),
                                     const SizedBox(height: 10),
-                                    const Divider(),
+                                    Divider(
+                                      color: AppColors.primaryColor,
+                                      thickness: 2,
+                                    ),
                                     const SizedBox(height: 10),
-
-                                    // Headers for user data (with consistent flex values)
-                                    const Row(
-                                      children: [
+                                    // Headers for user data
+                                    Row(
+                                      children: const [
                                         Expanded(
                                           flex: 1,
                                           child: Center(
@@ -190,58 +102,34 @@ class UserDetailPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Center(
-                                            child: Text(
-                                              'Status',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Center(
-                                            child: Text(
-                                              'Verified',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.transparent,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
                                       ],
                                     ),
                                     const SizedBox(height: 10),
-                                    const Divider(),
+                                    Divider(
+                                      color: AppColors.primaryColor,
+                                      thickness: 2,
+                                    ),
                                     const SizedBox(height: 10),
-
-                                    // Display users
+                                    // Display user data
                                     Obx(() {
                                       if (userController.isLoading.value) {
                                         return const Center(
                                             child: CircularProgressIndicator());
                                       }
-
                                       if (userController.users.isEmpty) {
                                         return const Center(
                                             child: Text("No users found."));
                                       }
-
                                       return Column(
                                         children: List.generate(
                                           userController.users.length,
-                                          (index) {
+                                              (index) {
                                             final user =
-                                                userController.users[index];
+                                            userController.users[index];
                                             return Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8.0),
+                                              padding: const EdgeInsets.symmetric(
+                                                vertical: 8.0,
+                                              ),
                                               child: Row(
                                                 children: [
                                                   Expanded(
@@ -249,38 +137,17 @@ class UserDetailPage extends StatelessWidget {
                                                     child: Center(
                                                         child: Text(
                                                             "${index + 1}")),
-                                                  ), // S.No
+                                                  ),
                                                   Expanded(
                                                     flex: 2,
                                                     child: Center(
                                                         child: Text(user.name)),
-                                                  ), // Name
+                                                  ),
                                                   Expanded(
                                                     flex: 3,
                                                     child: Center(
-                                                        child:
-                                                            Text(user.email)),
-                                                  ), // Email
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Center(
-                                                        child: Text(
-                                                      "Verified",
-                                                      style: TextStyle(
-                                                        color: Colors.green,
-                                                      ),
-                                                    )),
-                                                  ), // Status
-                                                  const Expanded(
-                                                    flex: 2,
-                                                    child: Text(
-                                                      "Verified",
-                                                      style: TextStyle(
-                                                        color:
-                                                            Colors.transparent,
-                                                      ),
-                                                    ),
-                                                  ), // Empty column for alignment
+                                                        child: Text(user.email)),
+                                                  ),
                                                 ],
                                               ),
                                             );
@@ -288,14 +155,13 @@ class UserDetailPage extends StatelessWidget {
                                         ),
                                       );
                                     }),
-
                                     const SizedBox(height: 20),
                                   ],
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
