@@ -142,7 +142,6 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
         moduleList.add(
           ModuleModel(
             moduleName: module["moduleTitle"].text,
-            description: module["moduleDescription"].text,
             lessons: lessonList,
           ),
         );
@@ -213,7 +212,8 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                                   TextButton(
                                     onPressed: _pickImage,
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center ,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           "Pick Course Image",
@@ -223,7 +223,8 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                                           ),
                                         ),
                                         const SizedBox(width: 8),
-                                         Icon(Icons.image, color:AppColors.primaryColor),
+                                        Icon(Icons.image,
+                                            color: AppColors.primaryColor),
                                       ],
                                     ),
                                   ),
@@ -279,13 +280,8 @@ class _AddCourseDialogState extends State<AddCourseDialog> {
                                       "Enter Module Title",
                                       controller: modules[i]["moduleTitle"],
                                     ),
-                                    SizedBox(height: 5,),
-                                    _buildTextInput(
-                                      maxLines: 5,
-                                      "Module Description",
-                                      "Enter Module Description",
-                                      controller: modules[i]
-                                          ["moduleDescription"],
+                                    SizedBox(
+                                      height: 5,
                                     ),
                                     for (int j = 0;
                                         j < modules[i]["lessons"].length;

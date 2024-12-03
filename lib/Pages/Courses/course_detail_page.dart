@@ -51,23 +51,23 @@ class CourseDetailPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8.0),
                               child: Image.network(
                                 course.imageUrl,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
+                                height: 300,
+                                width: 250,
+                                fit: BoxFit.contain,
                               ),
                             ),
                             const SizedBox(height: 16),
 
                             // Course Title
-                             Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const Text(
                                   "Course Title:",
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Colors.redAccent
-                                  ),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.redAccent),
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
@@ -82,18 +82,23 @@ class CourseDetailPage extends StatelessWidget {
                             const SizedBox(height: 8),
 
                             // Course Summary
-                             Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text("Total Modules:",style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color: Colors.redAccent
-                                ),),
+                                const Text(
+                                  "Total Modules:",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.redAccent),
+                                ),
                                 const SizedBox(width: 8),
-                                Text("${course.modules.length}",style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),),
+                                Text(
+                                  "${course.modules.length}",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ],
                             ),
                             const SizedBox(height: 8),
@@ -101,17 +106,18 @@ class CourseDetailPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const Text(
-                                  "Total Lessons:",style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color: Colors.redAccent
-                                ),
+                                  "Total Lessons:",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.redAccent),
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  "${course.modules.expand((module) => module.lessons).length}",style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                  "${course.modules.expand((module) => module.lessons).length}",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
@@ -125,9 +131,9 @@ class CourseDetailPage extends StatelessWidget {
                               elevation: 9,
                               margin: const EdgeInsets.only(top: 16),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                side: const BorderSide(color: Colors.redAccent)
-                              ),
+                                  borderRadius: BorderRadius.circular(12),
+                                  side: const BorderSide(
+                                      color: Colors.redAccent)),
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Column(
@@ -141,15 +147,15 @@ class CourseDetailPage extends StatelessWidget {
                                         children: [
                                           // Module Title
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               const Text(
                                                 "Module:",
                                                 style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                  color: Colors.redAccent
-                                                ),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                    color: Colors.redAccent),
                                               ),
                                               const SizedBox(width: 8),
                                               Text(
@@ -176,27 +182,32 @@ class CourseDetailPage extends StatelessWidget {
                                                       const Text(
                                                         "Lesson:",
                                                         style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.bold,
-                                                          color: Colors.redAccent
-                                                        ),
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors
+                                                                .redAccent),
                                                       ),
                                                       const SizedBox(width: 8),
                                                       Text(
                                                         lesson.lessonName,
                                                         style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight: FontWeight.bold
-                                                        ),
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
                                                     ],
                                                   ),
-                                                  const SizedBox(height: 5,),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
                                                   Text(
                                                     "Description: ${lesson.lessonDescription}",
                                                     style: const TextStyle(
                                                       fontSize: 12,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       fontStyle:
                                                           FontStyle.italic,
                                                     ),
