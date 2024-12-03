@@ -8,6 +8,7 @@ import 'package:student_managment_system/Utills/header.dart';
 import 'package:student_managment_system/Utills/responsive.dart';
 
 import '../../Utills/side_menu.dart';
+import 'share_data_dialog.dart';
 
 class GroupDetailPage extends StatelessWidget {
   const GroupDetailPage({super.key});
@@ -64,92 +65,7 @@ class GroupDetailPage extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    // const SizedBox(height: 16),
-                                    // Row(
-                                    //   children: [
-                                    //     // Search box for groups
-                                    //     Container(
-                                    //       height: 38,
-                                    //       width: MediaQuery.of(context)
-                                    //               .size
-                                    //               .width /
-                                    //           5,
-                                    //       decoration: BoxDecoration(
-                                    //         border: Border(
-                                    //           left: BorderSide(
-                                    //             color: AppColors.primaryColor,
-                                    //             width: 1.0,
-                                    //           ),
-                                    //           top: BorderSide(
-                                    //             color: AppColors.primaryColor,
-                                    //             width: 1.0,
-                                    //           ),
-                                    //           bottom: BorderSide(
-                                    //             color: AppColors.primaryColor,
-                                    //             width: 1.0,
-                                    //           ),
-                                    //           right: BorderSide.none,
-                                    //         ),
-                                    //         borderRadius:
-                                    //             const BorderRadius.only(
-                                    //           topLeft: Radius.circular(8),
-                                    //           bottomLeft: Radius.circular(8),
-                                    //         ),
-                                    //       ),
-                                    //       child: const TextField(
-                                    //         decoration: InputDecoration(
-                                    //           isDense: true,
-                                    //           contentPadding:
-                                    //               EdgeInsets.symmetric(
-                                    //                   vertical: 8.0),
-                                    //           hintText: 'Search groups',
-                                    //           hintStyle: TextStyle(
-                                    //               color: Colors.black),
-                                    //           border: InputBorder.none,
-                                    //           prefixIcon: Icon(Icons.search,
-                                    //               color: Colors.black),
-                                    //         ),
-                                    //         textAlignVertical:
-                                    //             TextAlignVertical.center,
-                                    //         style:
-                                    //             TextStyle(color: Colors.black),
-                                    //       ),
-                                    //     ),
-                                    //     InkWell(
-                                    //       onTap: () {},
-                                    //       child: Container(
-                                    //         height: 38,
-                                    //         width: MediaQuery.of(context)
-                                    //                 .size
-                                    //                 .width /
-                                    //             13,
-                                    //         decoration: BoxDecoration(
-                                    //           color: AppColors.primaryColor,
-                                    //           borderRadius:
-                                    //               const BorderRadius.only(
-                                    //             topRight: Radius.circular(8),
-                                    //             bottomRight: Radius.circular(8),
-                                    //           ),
-                                    //         ),
-                                    //         child: Center(
-                                    //           child: Text(
-                                    //             "Search",
-                                    //             style: GoogleFonts.getFont(
-                                    //               "Poppins",
-                                    //               textStyle: TextStyle(
-                                    //                 fontSize: 14,
-                                    //                 fontWeight: FontWeight.w600,
-                                    //                 color:
-                                    //                     AppColors.secondryColor,
-                                    //               ),
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //     const SizedBox(width: 12),
-                                    //   ],
-                                    // ),
+
                                     const SizedBox(height: 10),
                                     Divider(
                                       color: AppColors.primaryColor,
@@ -172,7 +88,7 @@ class GroupDetailPage extends StatelessWidget {
                                           ),
                                         ),
                                         Expanded(
-                                          flex: 3,
+                                          flex: 2,
                                           child: Center(
                                             child: Text(
                                               'Group Title',
@@ -208,13 +124,25 @@ class GroupDetailPage extends StatelessWidget {
                                           ),
                                         ),
                                         Expanded(
-                                          flex: 2,
+                                          flex: 1,
                                           child: Center(
                                             child: Text(
                                               'Status',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Center(
+                                            child: Text(
+                                              'Status',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.transparent,
                                               ),
                                             ),
                                           ),
@@ -261,7 +189,7 @@ class GroupDetailPage extends StatelessWidget {
                                                   ),
                                                   // Group Title
                                                   Expanded(
-                                                    flex: 3,
+                                                    flex: 2,
                                                     child: Center(
                                                         child: Text(
                                                             group.groupTitle)),
@@ -287,7 +215,7 @@ class GroupDetailPage extends StatelessWidget {
                                                   ),
                                                   // Status
                                                   Expanded(
-                                                    flex: 2,
+                                                    flex: 1,
                                                     child: Center(
                                                         child: Text(
                                                       group.status,
@@ -298,6 +226,42 @@ class GroupDetailPage extends StatelessWidget {
                                                             : Colors.red,
                                                       ),
                                                     )),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        Get.dialog(
+                                                          ShareDataDialog(
+                                                            group: group,
+                                                          ),
+                                                          barrierDismissible:
+                                                              false, // Prevent accidental dismissal
+                                                        );
+                                                      },
+                                                      child: Container(
+                                                        height: 30,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            6,
+                                                          ),
+                                                        ),
+                                                        child: const Center(
+                                                          child: Text(
+                                                            "Share",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ],
                                               ),

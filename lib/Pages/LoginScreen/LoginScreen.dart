@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:student_managment_system/Controllers/auth_controller.dart';
 import 'package:student_managment_system/Utills/colors.dart';
 
 class Loginscreen extends StatefulWidget {
@@ -23,6 +25,7 @@ class _LoginscreenState extends State<Loginscreen> {
 
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.put(AuthController());
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -71,7 +74,8 @@ class _LoginscreenState extends State<Loginscreen> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please enter your email";
-                        } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                        } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                            .hasMatch(value)) {
                           return "Please enter a valid email address";
                         }
                         return null;
@@ -111,31 +115,37 @@ class _LoginscreenState extends State<Loginscreen> {
                       },
                     ),
                     const SizedBox(height: 30),
-                    // Submit Button
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // Process login
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Logging in...")),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white, backgroundColor: Colors.red,
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                    Obx(
+                      () => SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              authController.login(
+                                _emailController.text,
+                                _passwordController.text,
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: AppColors.primaryColor,
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
-                        ),
-                        child: const Text(
-                          "Login",
-                          style: TextStyle(fontSize: 18),
+                          child: authController.isLoading.value == true
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : const Text(
+                                  "Login",
+                                  style: TextStyle(fontSize: 18),
+                                ),
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),

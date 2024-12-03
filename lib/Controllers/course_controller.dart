@@ -97,7 +97,6 @@ class CourseController {
         // Create a module model and add it to the list
         modulesWithLessons.add(ModuleModel(
           moduleName: moduleTitle,
-          description: description,
           lessons: lessons,
         ));
       }

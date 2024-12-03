@@ -23,19 +23,16 @@ class Courses {
 
 class ModuleModel {
   final String moduleName;
-  final String description; // Required description field for the module
   final List<LessonModel> lessons;
 
   ModuleModel({
     required this.moduleName,
-    required this.description, // Now required
     required this.lessons,
   });
 
   Map<String, dynamic> toMap() {
     return {
       "moduleTitle": moduleName,
-      "description": description, // Add description to the map
       "lessons": lessons.map((lesson) => lesson.toMap()).toList(),
     };
   }
